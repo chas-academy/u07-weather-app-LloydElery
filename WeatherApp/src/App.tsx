@@ -57,12 +57,17 @@ function App() {
     }
   };
 
+  // Gets geo location and weather-information about the location
   const myLocation = () => {
     getUserPosition();
     axios.get(geoUrl).then((response) => {
       setData(response.data);
-      let data = response.data[0];
-      console.log("myLocation(): " + data);
+      let data = response.data;
+      console.log(data);
+      console.log(data.weather);
+      console.log(data.weather[0].main); // Group of weather parameters (Rain, Snow, Clouds etc.)
+      console.log(data.weather[0].description); // Weather condition within the group.
+      console.log(data.main.temp);
     });
   };
 

@@ -3,12 +3,38 @@ import axios from "axios";
 import "./App.css";
 
 function App() {
+  const [userPosition, setUserPosition] = useState<{
+    latitude: number;
+    longitude: number;
+  } | null>(null);
+
+  const getUserPosition = () => {
+    // Success -> get current device location
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        (position) => {
+          const { latitude, longitude } = position.coords;
+
+          setUserPosition({ latitude, longitude });
+          console.log(position.coords.latitude);
+        },
+        (error) => {
+          console.error("Error fetching geolocation", error);
+        }
+      );
+    } else {
+      console.error("Geolocation is not supported by this browser");
+    }
+  };
+
   const [data, setData]: any = useState({});
   const [location, setlocation] = useState(""); // country/city ...q={country}
+  const position = "";
 
-  const limit = 1; // number of location in the response &limit={limit}
   const appId = "164e612402e8456b68fbfabfc8c7ff68";
-  const url = `http://api.openweathermap.org/geo/1.0/direct?q=${location}&limit=${limit}&appid=${appId}`;
+  const url = `https://api.openweathermap.org`;
+  const searchUrl = `${url}/geo/1.0/direct?q=${location}&limit=1&appid=${appId}`;
+  const geoUrl = `${url}/data/2.5/weather?lat=${userPosition?.latitude}&lon=${userPosition?.longitude}&appid=${appId}`;
 
   const weak = [
     "Monday",
@@ -22,17 +48,27 @@ function App() {
 
   const searchLocation = (event: any) => {
     if (event.key === "Enter") {
-      axios.get(url).then((response) => {
+      axios.get(searchUrl).then((response) => {
         setData(response.data);
         let data = response.data[0];
-        console.log(data);
+        console.log("searchLocation: " + data);
       });
       setlocation(""); // Removes the searchword from the inputfield
     }
   };
 
+  const myLocation = () => {
+    getUserPosition();
+    axios.get(geoUrl).then((response) => {
+      setData(response.data);
+      let data = response.data[0];
+      console.log("myLocation(): " + data);
+    });
+  };
+
   return (
     <>
+      <button onClick={myLocation}>Set your location</button>
       {/* Main container */}
       <div className="flex flex-col border-2 border-black h-screen m-2">
         {/* Header container */}

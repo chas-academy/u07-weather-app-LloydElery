@@ -7,3 +7,5 @@ const UserGeoLocation = () => {
 
   return;
 };
+
+export default UserGeoLocation;

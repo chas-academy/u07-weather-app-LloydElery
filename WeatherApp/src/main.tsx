@@ -4,6 +4,8 @@ import "./index.css";
 import { Link, RouterProvider, createBrowserRouter } from "react-router-dom";
 import { Outlet } from "react-router-dom";
 
+import UserGeoLocation from "./components/UserGeoLocation.tsx";
+
 const router = createBrowserRouter([
   {
     path: "/",

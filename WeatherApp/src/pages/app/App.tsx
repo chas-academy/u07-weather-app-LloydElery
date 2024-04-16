@@ -3,6 +3,11 @@ import axios from "axios";
 import "./App.css";
 import { useUserLocationStore } from "../../stores/storeUserLocation";
 
+const logUserLocation = () => {
+  const userLocation = useUserLocationStore.getState().updateUserLocation;
+  console.log("UserLocation", userLocation);
+};
+
 function App() {
   const userLocation = useUserLocationStore((state) => {
     state.latitude, state.longitude;

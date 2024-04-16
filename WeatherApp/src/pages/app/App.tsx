@@ -1,8 +1,13 @@
 import { useState } from "react";
 import axios from "axios";
 import "./App.css";
+import { useUserLocationStore } from "../../stores/storeUserLocation";
 
 function App() {
+  const userLocation = useUserLocationStore((state) => {
+    state.latitude, state.longitude;
+  });
+
   const [userPosition, setUserPosition] = useState<{
     latitude: number;
     longitude: number;
@@ -29,7 +34,6 @@ function App() {
 
   const [data, setData]: any = useState({});
   const [location, setlocation] = useState(""); // country/city ...q={country}
-  const position = "";
 
   const appId = "164e612402e8456b68fbfabfc8c7ff68";
   const url = `https://api.openweathermap.org`;

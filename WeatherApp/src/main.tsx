@@ -4,7 +4,29 @@ import "./index.css";
 import { Link, RouterProvider, createBrowserRouter } from "react-router-dom";
 import { Outlet } from "react-router-dom";
 
-import UserGeoLocation from "./components/UserGeoLocation.tsx";
+import UserGeoLocation from "./components/UserLocationComponent.tsx";
+
+/**
+ * Routing structure
+ *
+ * | App (Home)
+ *  | NAV?
+ *  | Children
+ *    | CurrentWeatherComponent
+ *      | Children
+ *        | WeatherComponent
+ *        | UserLocationComponent
+ *        | TemperatureComponent
+ *        | WeatherDisplayComponent
+ *    | SearchComponent
+ *    | ForcastComponent
+ *      | Children
+ *        | SeasonComponent
+ *        | DateComponent
+ *        | WeatherComponent
+ *        | TemperatureComponent
+ *        | WeatherDisplayComponent
+ * */
 
 const router = createBrowserRouter([
   {

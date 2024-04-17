@@ -1,0 +1,61 @@
+// This COMPONENT will handle location searches from users
+
+import { useEffect, useState } from "react";
+import axios from "axios";
+
+// TODO Fix the search so that it does not make a request on each key
+
+const SearchComponent = () => {
+  const [searchterm, setSearchterm] = useState(""); // country/city ...q={country}
+  const [data, setData]: any = useState({}); // Setter for API fetch requests
+  const APIKEY = import.meta.env.VITE_API_KEY_SEARCH; // API key for search (geocoding-api)
+  const searchLocation = async () => {
+    const searchUrl = `http://api.openweathermap.org/geo/1.0/direct?q=${searchterm}&limit=1&appid=${APIKEY}`;
+    const response = await fetch(searchUrl);
+    const result = await response.json();
+    console.log(result);
+    setData(result);
+  };
+
+  /*   const searchLocation = (event: any) => {
+    if (event.key === "Enter") {
+      axios.get(searchUrl).then((response) => {
+        setData(response.data);
+        console.log("searchLocation: " + response.data);
+      });
+      setSearchterm(""); // Removes the searchword from the inputfield
+    }
+  };
+ */
+  useEffect(() => {
+    searchLocation();
+  }, []);
+
+  return (
+    <>
+      {/* Search container */}
+      <div className="flex content-center justify-center items-center">
+        {/* Search icon container */}
+        <div className="border-2 border-black w-7 h-7">
+          {/* Search icon */}
+          <img
+            className="w-full h-full justify-center content-center"
+            src=""
+            alt=""
+          />
+        </div>
+        {/* Search input */}
+        <input
+          className="border-2 border-black"
+          value={searchterm}
+          onChange={(event) => setSearchterm(event.target.value)}
+          onClick={searchLocation}
+          type="text"
+          placeholder="Enter Location"
+        />
+      </div>
+    </>
+  );
+};
+
+export default SearchComponent;

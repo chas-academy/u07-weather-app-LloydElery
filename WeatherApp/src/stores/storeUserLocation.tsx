@@ -1,3 +1,5 @@
+// This STORE will handle location information
+
 import { create } from "zustand";
 
 type UserLocationStore = {
@@ -13,5 +15,6 @@ export const useUserLocationStore = create<UserLocationStore>((set) => ({
   updateUserLocation() {
     set((state) => ({ latitude: state.latitude }));
     set((state) => ({ longitude: state.longitude }));
+    console.log(this.latitude, this.longitude);
   },
 }));

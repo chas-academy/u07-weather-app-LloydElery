@@ -1,7 +1,17 @@
-import { useState } from "react";
-import axios from "axios";
+// Components
+import CurrentWeatherComponent from "../../components/CurrentWeatherComponent";
+import SearchComponent from "../../components/SearchComponent";
+import ForcastComponent from "../../components/ForcastComponent";
+
+// Styling
 import "./App.css";
+
+// Hooks
+import { useState } from "react";
 import { useUserLocationStore } from "../../stores/storeUserLocation";
+
+// Other
+import axios from "axios";
 
 const logUserLocation = () => {
   const userLocation = useUserLocationStore.getState().updateUserLocation;
@@ -38,12 +48,11 @@ function App() {
   };
 
   const [data, setData]: any = useState({});
-  const [location, setlocation] = useState(""); // country/city ...q={country}
 
-  const appId = "164e612402e8456b68fbfabfc8c7ff68";
+  const APPKEY = import.meta.env.VITE_API_KEY;
   const url = `https://api.openweathermap.org`;
-  const searchUrl = `${url}/geo/1.0/direct?q=${location}&limit=1&appid=${appId}`;
-  const geoUrl = `${url}/data/2.5/weather?lat=${userPosition?.latitude}&lon=${userPosition?.longitude}&appid=${appId}`;
+
+  const geoUrl = `${url}/data/2.5/weather?lat=${userPosition?.latitude}&lon=${userPosition?.longitude}&appid=${APPKEY}`;
 
   const weak = [
     "Monday",
@@ -54,17 +63,6 @@ function App() {
     "Saturday",
     "Sunday",
   ];
-
-  const searchLocation = (event: any) => {
-    if (event.key === "Enter") {
-      axios.get(searchUrl).then((response) => {
-        setData(response.data);
-        let data = response.data[0];
-        console.log("searchLocation: " + data);
-      });
-      setlocation(""); // Removes the searchword from the inputfield
-    }
-  };
 
   // Gets geo location and weather-information about the location
   const myLocation = () => {
@@ -108,27 +106,7 @@ function App() {
             </strong>
           </div>
         </div>
-        {/* Search container */}
-        <div className="flex content-center justify-center items-center">
-          {/* Search icon container */}
-          <div className="border-2 border-black w-7 h-7">
-            {/* Search icon */}
-            <img
-              className="w-full h-full justify-center content-center"
-              src=""
-              alt=""
-            />
-          </div>
-          {/* Search input */}
-          <input
-            className="border-2 border-black"
-            value={location}
-            onChange={(event) => setlocation(event.target.value)}
-            onKeyUp={searchLocation}
-            type="text"
-            placeholder="Enter Location"
-          />
-        </div>
+        <SearchComponent></SearchComponent>
         <div>
           {weak.map((day: string) => (
             <>

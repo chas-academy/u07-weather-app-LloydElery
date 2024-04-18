@@ -8,21 +8,18 @@ import "./App.css";
 
 // Hooks
 import { useState } from "react";
-import { useUserLocationStore } from "../../stores/storeUserLocation";
+import { useUserLocationStore } from "../../stores/useUserLocationStore";
 
 // Other
 import axios from "axios";
 
-const logUserLocation = () => {
+// TODO Användes för att ta emot geo location utanför komponenten
+/* const logUserLocation = () => {
   const userLocation = useUserLocationStore.getState().updateUserLocation;
   console.log("UserLocation", userLocation);
-};
+}; */
 
 function App() {
-  const userLocation = useUserLocationStore((state) => {
-    state.latitude, state.longitude;
-  });
-
   const [userPosition, setUserPosition] = useState<{
     latitude: number;
     longitude: number;
@@ -49,11 +46,6 @@ function App() {
 
   const [data, setData]: any = useState({});
 
-  const APPKEY = import.meta.env.VITE_API_KEY;
-  const url = `https://api.openweathermap.org`;
-
-  const geoUrl = `${url}/data/2.5/weather?lat=${userPosition?.latitude}&lon=${userPosition?.longitude}&appid=${APPKEY}`;
-
   const weak = [
     "Monday",
     "Teusday",
@@ -64,23 +56,9 @@ function App() {
     "Sunday",
   ];
 
-  // Gets geo location and weather-information about the location
-  const myLocation = () => {
-    getUserPosition();
-    axios.get(geoUrl).then((response) => {
-      setData(response.data);
-      let data = response.data;
-      console.log(data);
-      console.log(data.weather);
-      console.log(data.weather[0].main); // Group of weather parameters (Rain, Snow, Clouds etc.)
-      console.log(data.weather[0].description); // Weather condition within the group.
-      console.log(data.main.temp);
-    });
-  };
-
   return (
     <>
-      <button onClick={myLocation}>Set your location</button>
+      <CurrentWeatherComponent></CurrentWeatherComponent>
       {/* Main container */}
       <div className="flex flex-col border-2 border-black h-screen m-2">
         {/* Header container */}

@@ -1,9 +1,8 @@
 // This COMPONENT will handle location searches from users
 
 import { useEffect, useState } from "react";
-import axios from "axios";
 
-// TODO Fix the search so that it does not make a request on each key
+//TODO Why is ´data´ never read?
 
 const SearchComponent = () => {
   const [searchterm, setSearchterm] = useState(""); // country/city ...q={country}
@@ -23,16 +22,6 @@ const SearchComponent = () => {
     setSearchterm("");
   };
 
-  /*   const searchLocation = (event: any) => {
-    if (event.key === "Enter") {
-      axios.get(searchUrl).then((response) => {
-        setData(response.data);
-        console.log("searchLocation: " + response.data);
-      });
-      setSearchterm(""); // Removes the searchword from the inputfield
-    }
-  };
- */
   useEffect(() => {
     searchLocation();
   }, []);

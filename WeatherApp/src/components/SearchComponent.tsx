@@ -9,12 +9,18 @@ const SearchComponent = () => {
   const [searchterm, setSearchterm] = useState(""); // country/city ...q={country}
   const [data, setData]: any = useState({}); // Setter for API fetch requests
   const APIKEY = import.meta.env.VITE_API_KEY_SEARCH; // API key for search (geocoding-api)
+
   const searchLocation = async () => {
-    const searchUrl = `http://api.openweathermap.org/geo/1.0/direct?q=${searchterm}&limit=1&appid=${APIKEY}`;
-    const response = await fetch(searchUrl);
-    const result = await response.json();
-    console.log(result);
-    setData(result);
+    if (searchterm) {
+      const searchUrl = `http://api.openweathermap.org/geo/1.0/direct?q=${searchterm}&limit=1&appid=${APIKEY}`;
+      const response = await fetch(searchUrl);
+      const result = await response.json();
+      console.log(result);
+      setData(result);
+    } else {
+      return <p>Enter a City, Country or State</p>;
+    }
+    setSearchterm("");
   };
 
   /*   const searchLocation = (event: any) => {
@@ -49,10 +55,10 @@ const SearchComponent = () => {
           className="border-2 border-black"
           value={searchterm}
           onChange={(event) => setSearchterm(event.target.value)}
-          onClick={searchLocation}
           type="text"
           placeholder="Enter Location"
         />
+        <button onClick={() => searchLocation()}>Search</button>
       </div>
     </>
   );

@@ -46,10 +46,38 @@ const UserLocationComponent = () => {
     console.log(result.main.temp);
   };
 
+  // FIXME Set the location first to read the component return
   return (
     <>
       <div>
         <button onClick={() => myLocation()}>Set your location</button>
+      </div>
+
+      {/* Header container */}
+      <div className="border-2 m-2 w-auto border-black flex min-h-96 text-lg justify-evenly content-center items-center">
+        {/* Image container */}
+        <div className="border-2 border-black w-10 h-10">
+          <img
+            className="w-full h-full content-center items-center"
+            /*             src={userPosition.weather[0].icon}
+            alt={userPosition.weather[0].main} */
+          />
+        </div>
+        {/* Location Name container */}
+        <div>
+          {/*           <h2 className="w-full h-full content-center items-center">
+            <strong>{userPosition.name}</strong> <br />{" "}
+            <p>
+              {userPosition.weather[0].main} & <br /> {userPosition.main.temp}
+            </p>
+          </h2> */}
+        </div>
+        {/* Current Temp container */}
+        <div className="border-2 border-black w-10 h-10">
+          <strong className="w-full h-full content-center items-center">
+            30c
+          </strong>
+        </div>
       </div>
     </>
   );

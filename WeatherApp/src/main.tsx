@@ -4,7 +4,7 @@ import "./index.css";
 import { Link, RouterProvider, createBrowserRouter } from "react-router-dom";
 import { Outlet } from "react-router-dom";
 
-import UserGeoLocation from "./components/UserLocationComponent.tsx";
+import UserLocationComponent from "./components/UserLocationComponent.tsx";
 
 /**
  * Routing structure
@@ -38,11 +38,6 @@ const router = createBrowserRouter([
             <h1>Navbar</h1>
             <p>This is the navbar</p>
           </div>
-          <ul>
-            <li>
-              <Link to={"location"}>Location</Link>
-            </li>
-          </ul>
         </nav>
         <br />
         <Outlet></Outlet>
@@ -51,7 +46,7 @@ const router = createBrowserRouter([
 
     children: [
       {
-        path: "location",
+        path: "/",
         element: <App></App>,
       },
     ],

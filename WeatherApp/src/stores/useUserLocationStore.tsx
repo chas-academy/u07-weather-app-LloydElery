@@ -11,14 +11,23 @@ interface Location {
   };
 }
 
+const userLocationIsNull = {
+  latitude: 59.334591,
+  longitude: 18.06324,
+};
+
 export const useUserLocationStore = create<
   Location,
   ["zustand/immer", unknown][]
 >(
   immer((set) => ({
     userLocation: {
-      latitude: null,
-      longitude: null,
+      latitude: sessionStorage.getItem("userLatitude")
+        ? parseFloat(sessionStorage.getItem("userLatitude")!)
+        : userLocationIsNull.latitude,
+      longitude: sessionStorage.getItem("userLongitude")
+        ? parseFloat(sessionStorage.getItem("userLongitude")!)
+        : userLocationIsNull.longitude,
     },
     updateUserLocation: (updatedLocation: any) =>
       set({ userLocation: updatedLocation }),

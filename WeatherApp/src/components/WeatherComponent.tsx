@@ -1,22 +1,33 @@
 // This component will handle weather calls
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useUserLocationStore } from "../stores/useUserLocationStore";
 
 const WeatherComponent = () => {
   const userPosition = useUserLocationStore((state: any) => state.userLocation);
-  let weatherIcon = "";
-  if (userPosition.weather) {
-    weatherIcon = `https://openweathermap.org/img/wn/${userPosition.weather[0].icon}@2x.png`;
-  }
+  const [weather, setWeather]: any = useState(userPosition);
 
+  /* User geolocation, used in the api fetch */
+
+  const APIKEY = import.meta.env.VITE_API_KEY_CURRENT;
+
+  let weatherIcon = "";
+  const getWeatherByGeolocation = async () => {
+    const currentLocationUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${userPosition.latitude}&lon=${userPosition.longitude}&appid=${APIKEY}`;
+    const response = await fetch(currentLocationUrl);
+    const result = await response.json();
+    console.log(result);
+    console.log(weather);
+    weatherIcon = `https://openweathermap.org/img/wn/${result.weather[0].icon}@2x.png`;
+    setWeather(result);
+    console.log(result.name);
+  };
+  /* 
   //TODO Hämta url som en prop
   const myWeather = async () => {
     // Updates the user geolocation
     const setUserPosition = useUserLocationStore(
       (state: any) => state.updateUserLocation
     );
-    const APIKEY = import.meta.env.VITE_API_KEY_CURRENT;
-    const currentLocationUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${userPosition?.latitude}&lon=${userPosition?.longitude}&appid=${APIKEY}`;
     const response = await fetch(currentLocationUrl);
     const result = await response.json();
     setUserPosition(result);
@@ -26,37 +37,33 @@ const WeatherComponent = () => {
     console.log(result.weather[0].main); // Group of weather parameters (Rain, Snow, Clouds etc.)
     console.log(result.weather[0].description); // Weather condition within the group.
     console.log(result.main.temp);
-  };
+  }; */
 
   useEffect(() => {
-    myWeather();
+    getWeatherByGeolocation();
   }, []);
-
-  // Checking if the .... does not exict
-  if (!userPosition.weather) {
-    return null;
-  }
-
   return (
     <>
+      <h1>Weather component</h1>
+      <h1>{weather.name}</h1>
       {/* Header container */}
       <div className="border-2 m-2 w-auto border-black flex min-h-96 text-lg justify-evenly content-center items-center">
         {/* Image container */}
         <div className="border-2 border-black w-10 h-10">
-          <img
+          {/* <img
             className="w-full h-full content-center items-center"
             src={weatherIcon}
-            alt={userPosition.weather[0].main}
-          />
+            alt={weather.weather[0].main}
+          /> */}
         </div>
         {/* Location Name container */}
         <div>
-          <h2 className="w-full h-full content-center items-center">
-            <strong>{userPosition.name}</strong> <br />{" "}
+          {/* <h2 className="w-full h-full content-center items-center">
+            <strong>{weather.name}</strong> <br />{" "}
             <p>
-              {userPosition.weather[0].main} & <br /> {userPosition.main.temp}
+              {weather.weather[0].main} & <br /> {weather.main.temp}
             </p>
-          </h2>
+          </h2> */}
         </div>
         {/* Current Temp container */}
         <div className="border-2 border-black w-10 h-10">

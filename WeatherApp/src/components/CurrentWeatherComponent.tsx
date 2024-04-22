@@ -1,6 +1,5 @@
 // This COMPONENT will hold information about the current geolocation and current weather
 
-import WeatherComponent from "./WeatherComponent";
 import UserLocationComponent from "./UserLocationComponent";
 import TemperatureComponent from "./TemperatureComponent";
 import WeatherDisplayComponent from "./WeatherDisplayComponent";
@@ -8,11 +7,9 @@ import WeatherDisplayComponent from "./WeatherDisplayComponent";
 const CurrentWeatherComponent = () => {
   return (
     <>
+      <h1>Current weather component</h1>
       {/* Gets user device geolocation */}
       <UserLocationComponent></UserLocationComponent>
-
-      {/* Gets weather based on search or geolocation */}
-      <WeatherComponent></WeatherComponent>
 
       {/* Gets temperature for the location or geolocation */}
       <TemperatureComponent></TemperatureComponent>

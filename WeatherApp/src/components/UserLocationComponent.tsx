@@ -1,4 +1,5 @@
 // This component will handle user location
+import WeatherComponent from "./WeatherComponent";
 
 import { useUserLocationStore } from "../stores/useUserLocationStore";
 
@@ -10,7 +11,7 @@ const UserLocationComponent = () => {
     (state: any) => state.updateUserLocation
   );
 
-  const getUserPosition = () => {
+  const getUserPosition = async () => {
     // Success -> get current device location
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
@@ -28,12 +29,20 @@ const UserLocationComponent = () => {
     }
   };
 
-  if (userPosition.latitude == 0) {
+  /* If device location is not set, ask to set it on refresh */
+  if (userPosition.latitude == 59.334591) {
     getUserPosition();
+    console.log("Running getUserPosition");
   }
 
   // FIXME Set the location first to read the component return
-  return <></>;
+  return (
+    <>
+      <h1>User location component</h1>
+      {/* Gets weather based on search or geolocation */}
+      <WeatherComponent></WeatherComponent>
+    </>
+  );
 };
 
 export default UserLocationComponent;

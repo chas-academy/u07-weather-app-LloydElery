@@ -50,6 +50,8 @@ const UserLocationComponent = () => {
   if (userPosition.latitude == 0) {
     myLocation();
   }
+
+  const weatherIcon = `https://openweathermap.org/img/wn/${userPosition.weather[0].icon}@2x.png`;
   // FIXME Set the location first to read the component return
   return (
     <>
@@ -63,7 +65,7 @@ const UserLocationComponent = () => {
         <div className="border-2 border-black w-10 h-10">
           <img
             className="w-full h-full content-center items-center"
-            src={userPosition.weather[0].icon}
+            src={weatherIcon}
             alt={userPosition.weather[0].main}
           />
         </div>

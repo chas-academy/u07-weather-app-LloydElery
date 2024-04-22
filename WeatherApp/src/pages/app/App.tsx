@@ -33,7 +33,9 @@ function App() {
       {/* Main container */}
       <div className="flex flex-col border-2 border-black h-screen m-2">
         {/* Current weather Card */}
-        <CurrentWeatherComponent></CurrentWeatherComponent>
+        <div className="border-2 m-2 w-auto border-black flex min-h-96 text-lg justify-evenly content-center items-center">
+          <CurrentWeatherComponent></CurrentWeatherComponent>
+        </div>
 
         <SearchComponent></SearchComponent>
         <div>

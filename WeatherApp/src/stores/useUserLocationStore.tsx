@@ -1,6 +1,7 @@
 // This STORE will handle location information
 
 import { create } from "zustand";
+import { devtools, persist } from "zustand/middleware";
 import { immer } from "zustand/middleware/immer";
 
 interface Location {
@@ -16,8 +17,8 @@ export const useUserLocationStore = create<
 >(
   immer((set) => ({
     userLocation: {
-      latitude: null,
-      longitude: null,
+      latitude: 0,
+      longitude: 0,
     },
     updateUserLocation: (updatedLocation: any) =>
       set({ userLocation: updatedLocation }),

@@ -17,8 +17,8 @@ export const useUserLocationStore = create<
 >(
   immer((set) => ({
     userLocation: {
-      latitude: 0,
-      longitude: 0,
+      latitude: null,
+      longitude: null,
     },
     updateUserLocation: (updatedLocation: any) =>
       set({ userLocation: updatedLocation }),

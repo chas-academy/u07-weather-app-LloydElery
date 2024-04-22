@@ -1,7 +1,7 @@
 // This COMPONENT will handle information about the temperature
 
 const TemperatureComponent = () => {
-  return;
+  return <></>;
 };
 
 export default TemperatureComponent;

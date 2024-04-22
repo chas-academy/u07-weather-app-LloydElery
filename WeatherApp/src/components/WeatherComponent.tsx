@@ -1,9 +1,13 @@
 // This component will handle weather calls
+import { useEffect } from "react";
 import { useUserLocationStore } from "../stores/useUserLocationStore";
 
 const WeatherComponent = () => {
   const userPosition = useUserLocationStore((state: any) => state.userLocation);
-  const weatherIcon = `https://openweathermap.org/img/wn/${userPosition.weather[0].icon}@2x.png`;
+  let weatherIcon = "";
+  if (userPosition.weather) {
+    weatherIcon = `https://openweathermap.org/img/wn/${userPosition.weather[0].icon}@2x.png`;
+  }
 
   //TODO Hämta url som en prop
   const myWeather = async () => {
@@ -24,8 +28,15 @@ const WeatherComponent = () => {
     console.log(result.main.temp);
   };
 
-  const weatherUrl =
-    "https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API key}";
+  useEffect(() => {
+    myWeather();
+  }, []);
+
+  // Checking if the .... does not exict
+  if (!userPosition.weather) {
+    return null;
+  }
+
   return (
     <>
       {/* Header container */}

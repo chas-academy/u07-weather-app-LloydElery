@@ -1,7 +1,7 @@
 // Components
 import CurrentWeatherComponent from "../../components/CurrentWeatherComponent";
 import SearchComponent from "../../components/SearchComponent";
-import ForcastComponent from "../../components/ForcastComponent";
+import ForecastComponent from "../../components/ForcastComponent";
 
 // Hooks
 import { useUserLocationStore } from "../../stores/useUserLocationStore";
@@ -18,16 +18,6 @@ const logUserLocation = () => {
 function App() {
   logUserLocation();
 
-  const weak = [
-    "Monday",
-    "Teusday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
-    "Sunday",
-  ];
-
   return (
     <>
       {/* Main container */}
@@ -38,40 +28,8 @@ function App() {
         </div>
 
         <SearchComponent></SearchComponent>
-        <div>
-          {weak.map((day: string) => (
-            <>
-              {/* Tomorrow container */}
-              <div className="border-2 m-2 w-auto border-black flex h-28 text-lg justify-evenly content-center items-center">
-                {/* Day container */}
-                <div>
-                  <h3 key={day}>{day}</h3>
-                </div>
-                {/* Image container */}
-                <div className="border-2 border-black w-10 h-10">
-                  <img
-                    className="w-full h-full content-center items-center"
-                    src=""
-                    alt=""
-                  />
-                </div>
 
-                {/* Min-Max temp container */}
-                <div>
-                  <strong className="w-full h-full content-center items-center">
-                    20c - 30c
-                  </strong>
-                </div>
-                {/* Medium Temp container */}
-                <div className="flex border-2 border-black w-10 h-10 ">
-                  <strong className="w-full h-full content-center items-center">
-                    25c
-                  </strong>
-                </div>
-              </div>
-            </>
-          ))}
-        </div>
+        <ForecastComponent></ForecastComponent>
       </div>
     </>
   );

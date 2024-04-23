@@ -15,11 +15,11 @@ import UserLocationComponent from "./components/UserLocationComponent.tsx";
  *    | CurrentWeatherComponent
  *      | Children
  *        | WeatherComponent
- *        | UserLocationComponent
- *        | TemperatureComponent
- *        | WeatherDisplayComponent
+ *        | UserLocationComponent - gets user location
+ *        | TemperatureComponent - converts temperature
+ *        | WeatherDisplayComponent - img
  *    | SearchComponent
- *    | ForcastComponent
+ *    | ForcastComponent - Displays information for the coming days
  *      | Children
  *        | SeasonComponent
  *        | DateComponent

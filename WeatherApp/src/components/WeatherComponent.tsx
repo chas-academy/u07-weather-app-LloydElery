@@ -2,12 +2,12 @@
 import { useEffect, useState } from "react";
 import { useUserLocationStore } from "../stores/useUserLocationStore";
 
+//FIXME Sidan kastar error när jag refreshar men inte när jag avmarkerar variabler och sparar koden i vs code
 const WeatherComponent = () => {
   const userPosition = useUserLocationStore((state: any) => state.userLocation);
-  const [weather, setWeather]: any = useState(userPosition);
+  const [weather, setWeather]: any = useState(null);
 
   /* User geolocation, used in the api fetch */
-
   const APIKEY = import.meta.env.VITE_API_KEY_CURRENT;
 
   let weatherIcon = "";
@@ -21,56 +21,43 @@ const WeatherComponent = () => {
     setWeather(result);
     console.log(result.name);
   };
-  /* 
-  //TODO Hämta url som en prop
-  const myWeather = async () => {
-    // Updates the user geolocation
-    const setUserPosition = useUserLocationStore(
-      (state: any) => state.updateUserLocation
-    );
-    const response = await fetch(currentLocationUrl);
-    const result = await response.json();
-    setUserPosition(result);
-
-    console.log(result);
-    console.log(result.weather);
-    console.log(result.weather[0].main); // Group of weather parameters (Rain, Snow, Clouds etc.)
-    console.log(result.weather[0].description); // Weather condition within the group.
-    console.log(result.main.temp);
-  }; */
 
   useEffect(() => {
     getWeatherByGeolocation();
-  }, []);
+  }, [userPosition]); // every time a user position changes, the useEffect will be triggerd
+
+  if (weather === null) {
+    return null;
+  }
+
   return (
     <>
-      <h1>Weather component</h1>
-      <h1>{weather.name}</h1>
-      {/* Header container */}
-      <div className="border-2 m-2 w-auto border-black flex min-h-96 text-lg justify-evenly content-center items-center">
-        {/* Image container */}
-        <div className="border-2 border-black w-10 h-10">
-          {/* <img
-            className="w-full h-full content-center items-center"
-            src={weatherIcon}
-            alt={weather.weather[0].main}
-          /> */}
-        </div>
-        {/* Location Name container */}
-        <div>
-          {/* <h2 className="w-full h-full content-center items-center">
-            <strong>{weather.name}</strong> <br />{" "}
-            <p>
-              {weather.weather[0].main} & <br /> {weather.main.temp}
-            </p>
-          </h2> */}
-        </div>
-        {/* Current Temp container */}
-        <div className="border-2 border-black w-10 h-10">
-          <strong className="w-full h-full content-center items-center">
-            30c
-          </strong>
-        </div>
+      {/* Image container */}
+
+      <div className="border-2 border-black w-10 h-10">
+        <img
+          className="w-full h-full content-center items-center"
+          src={weatherIcon}
+          alt={weather.weather[0].main}
+        />
+      </div>
+
+      {/* Location Name container */}
+
+      <div>
+        <h2 className="w-full h-full content-center items-center">
+          <strong>{weather.name}</strong> <br />{" "}
+          <p>
+            {weather.weather[0].main} & <br /> {weather.main.temp}
+          </p>
+        </h2>
+      </div>
+
+      {/* Current Temp container */}
+      <div className="border-2 border-black w-10 h-10">
+        <strong className="w-full h-full content-center items-center">
+          30c
+        </strong>
       </div>
     </>
   );

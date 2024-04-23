@@ -7,7 +7,6 @@ import WeatherDisplayComponent from "./WeatherDisplayComponent";
 const CurrentWeatherComponent = () => {
   return (
     <>
-      <h1>Current weather component</h1>
       {/* Gets user device geolocation */}
       <UserLocationComponent></UserLocationComponent>
 

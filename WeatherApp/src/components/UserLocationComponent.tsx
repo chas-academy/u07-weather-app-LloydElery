@@ -38,7 +38,6 @@ const UserLocationComponent = () => {
   // FIXME Set the location first to read the component return
   return (
     <>
-      <h1>User location component</h1>
       {/* Gets weather based on search or geolocation */}
       <WeatherComponent></WeatherComponent>
     </>

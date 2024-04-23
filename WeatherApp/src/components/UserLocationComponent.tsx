@@ -35,7 +35,6 @@ const UserLocationComponent = () => {
     console.log("Running getUserPosition");
   }
 
-  // FIXME Set the location first to read the component return
   return (
     <>
       {/* Gets weather based on search or geolocation */}

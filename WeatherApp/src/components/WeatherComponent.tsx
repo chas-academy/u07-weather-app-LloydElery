@@ -17,7 +17,12 @@ const WeatherComponent = () => {
     let weatherIcon = `https://openweathermap.org/img/wn/${result.weather[0].icon}@2x.png`;
     setWeatherIcon(weatherIcon);
     setWeather(result);
+    console.log(weather);
     return weatherIcon;
+  };
+
+  const capitalize = (string: string) => {
+    return string.charAt(0).toUpperCase() + string.slice(1);
   };
 
   useEffect(() => {
@@ -43,7 +48,7 @@ const WeatherComponent = () => {
       {/* Location Name container */}
       <div>
         <h2 className="w-full h-full content-center items-center">
-          <strong>{weather.name}</strong> <br />{" "}
+          <strong>{capitalize(weather.weather[0].description)}</strong> <br />{" "}
         </h2>
       </div>
 

@@ -62,6 +62,8 @@ const ForecastComponent = () => {
     return weatherIcon; */
   };
 
+  const getFiveDayForecast = () => {};
+
   const weak = [
     "Monday",
     "Teusday",
@@ -75,6 +77,37 @@ const ForecastComponent = () => {
   useEffect(() => {
     getWeatherForecast();
   }, [userPosition, unit, unitToken]);
+
+  /*   const forecastDateGroup = (forecastData: any) => {
+    const dateGroup: {
+      [date: string]: { temperature: number[]; icon: string };
+    } = {};
+    forecastData.list.forEach((element: any) => {
+      const date = new Date((element.dt + weather.city.timezone) * 1000);
+      const dayFormatter = new Intl.DateTimeFormat("en", { weekday: "short" });
+      const day = dayFormatter.format(date);
+      const dayOfMonth = date.getDate();
+      const month = date.getMonth() + 1;
+      const formattedDate = `${day}\n${dayOfMonth}/${month}`;
+      if (!dateGroup[formattedDate]) {
+        dateGroup[formattedDate] = { temperature: [], icon: "" };
+      }
+
+      const temperature = element.main.temp;
+      const icon = element.weather[0].icon;
+      dateGroup[formattedDate].temperature.push(temperature);
+      dateGroup[formattedDate].icon = icon;
+    });
+
+    Object.keys(dateGroup).forEach((date) => {
+      const values = dateGroup[date];
+      const sum = values.temperature.reduce((acc, temp) => acc + temp, 0);
+      const average = sum / values.temperature.length;
+      dateGroup[date].temperature = [parseFloat(average.toFixed(2))];
+    });
+    console.log(dateGroup);
+    return dateGroup;
+  }; */
 
   if (forecast === null) {
     return null;
@@ -121,31 +154,11 @@ const ForecastComponent = () => {
           <>
             {/* Tomorrow container */}
             <div className="border-2 m-2 w-auto border-black flex h-28 text-lg justify-evenly content-center items-center">
-              {/* Day container */}
+              {" "}
               <div>
                 <h3 key={day}>{day}</h3>
               </div>
-              {/* Image container */}
-              <div className="border-2 border-black w-10 h-10">
-                <img
-                  className="w-full h-full content-center items-center"
-                  src=""
-                  alt=""
-                />
-              </div>
-
-              {/* Min-Max temp container */}
-              <div>
-                <strong className="w-full h-full content-center items-center">
-                  20c - 30c
-                </strong>
-              </div>
-              {/* Medium Temp container */}
-              <div className="flex border-2 border-black w-10 h-10 ">
-                <strong className="w-full h-full content-center items-center">
-                  25c
-                </strong>
-              </div>
+              <WeatherComponent></WeatherComponent>
             </div>
           </>
         ))}

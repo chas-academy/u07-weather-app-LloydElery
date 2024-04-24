@@ -30,10 +30,8 @@ const ForecastComponent = () => {
     }
     sessionStorage.setItem(unitToken, unitToken);
     const storeUnitToken = sessionStorage.getItem(unitToken);
-    console.log(storeUnitToken);
     sessionStorage.setItem(unit, unit);
     const storeUnit = sessionStorage.getItem(unit);
-    console.log(storeUnit);
     return storeUnit;
   };
 
@@ -43,8 +41,7 @@ const ForecastComponent = () => {
 
   const getWeatherForecast = async () => {
     setUnit(unit);
-    console.log(unit);
-    const forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${userPosition.latitude}&lon=${userPosition.longitude}&cnt=10&appid=${APIKEY}&units=${unit}&lang=${lang}`;
+    const forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${userPosition.latitude}&lon=${userPosition.longitude}&appid=${APIKEY}&units=${unit}&lang=${lang}`;
     console.log(forecastUrl);
     const response = await fetch(forecastUrl);
     const result = await response.json();
@@ -53,14 +50,44 @@ const ForecastComponent = () => {
       return null;
     } else {
       setLang(forecast.city.country);
-      console.log(lang);
     }
     setUnitToken(unitToken);
     console.log(result);
-    /* let weatherIcon = `https://openweathermap.org/img/wn/${result.weather[0].icon}@2x.png`;
-    setWeatherIcon(weatherIcon);
-    setWeather(result);
-    return weatherIcon; */
+  };
+
+  const groupForecastDataByDate = (forecastData: any) => {
+    /* Grouping all the information by date */
+    const groupByDate: {
+      [date: string]: { temperature: number[]; icon: string };
+    } = {};
+    forecastData.list.map((element: any) => {
+      const date = new Date((element.dt + forecast.city.timezone) * 1000); // Formatting milleseconds to seconds based on the current timezone
+      const dayFormatter = new Intl.DateTimeFormat("en", {
+        weekday: "short",
+      }); // ...formatter for day display
+      const day = dayFormatter.format(date); // ...displays weekday
+      const dayByNumber = date.getDate(); // ...display date by number (1-31)
+      const month = date.getMonth() + 1; // ...display month by calendar year
+      const formattedDate = `${dayByNumber}/${month} | ${day}`; // ...combines and formatt date
+      if (!groupByDate[formattedDate]) {
+        groupByDate[formattedDate] = { temperature: [], icon: "" };
+      }
+
+      const temperature = element.main.temp;
+      const icon = element.weather[0].icon;
+      groupByDate[formattedDate].temperature.push(temperature);
+      groupByDate[formattedDate].icon = icon;
+    });
+
+    Object.keys(groupByDate).forEach((date) => {
+      const values = groupByDate[date];
+      const sum = values.temperature.reduce((acc, temp) => acc + temp, 0);
+      const average = sum / values.temperature.length;
+      groupByDate[date].temperature = [Math.round(average * 100) / 100];
+    });
+
+    console.log(groupByDate);
+    return groupByDate;
   };
 
   useEffect(() => {
@@ -80,20 +107,53 @@ const ForecastComponent = () => {
         >
           {unitToken}
         </button>
-      </div>
-      {/* Sunrise and Sunset */}
-      <div>
-        <p>Sunrise: {forecast.city.sunrise}</p>
-        <p>Sunset: {forecast.city.sunset}</p>
-      </div>
+        {/* Sunset Card */}
+        <section className="border-2 m-2 w-auto border-black flex min-h-28 text-lg justify-evenly content-center items-center">
+          {/* Sunrise and Sunset */}
+          <div>
+            <p>Sunrise: {forecast.city.sunrise}</p>
+            <p>Sunset: {forecast.city.sunset}</p>
+          </div>
 
-      {/* Location */}
-      <div>
-        <strong>{forecast.city.name}</strong>
+          {/* Location Name */}
+          <div className="flex justify-center font-normal text-xl">
+            <h2>{forecast.city.name}</h2>
+          </div>
+        </section>
+        {forecast && (
+          <>
+            <div>
+              {Object.keys(groupForecastDataByDate(forecast)).map(
+                (item: any) => {
+                  return (
+                    <>
+                      <div className="border-2 m-2 w-auto border-black flex min-h-28 text-lg justify-evenly content-center items-center">
+                        <p>{item}</p>
+                        <img
+                          src={`https://openweathermap.org/img/wn/${
+                            groupForecastDataByDate(forecast)[item].icon
+                          }@2x.png`}
+                          alt=""
+                        />
+                        <p>
+                          {Math.round(
+                            groupForecastDataByDate(forecast)[item]
+                              .temperature[0]
+                          ).toString()}{" "}
+                          {unitToken}
+                        </p>
+                      </div>
+                    </>
+                  );
+                }
+              )}
+            </div>
+          </>
+        )}
       </div>
 
       {/* Forecast */}
-      {forecast.list.map((element: any) => {
+      {/* {forecast.list.map((element: any) => {
         const date = new Date((element.dt + forecast.city.timezone) * 1000); // Formatting milleseconds to seconds based on the current timezone
         const dayFormatter = new Intl.DateTimeFormat("en", {
           weekday: "short",
@@ -113,7 +173,7 @@ const ForecastComponent = () => {
             </div>
           </>
         );
-      })}
+      })} */}
     </>
   );
 };

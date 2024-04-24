@@ -17,7 +17,6 @@ const WeatherComponent = () => {
     let weatherIcon = `https://openweathermap.org/img/wn/${result.weather[0].icon}@2x.png`;
     setWeatherIcon(weatherIcon);
     setWeather(result);
-    console.log(weather);
     return weatherIcon;
   };
 

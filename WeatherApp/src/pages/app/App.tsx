@@ -10,6 +10,8 @@ import { useUserLocationStore } from "../../stores/useUserLocationStore";
 import "./App.css";
 
 // TODO Användes för att ta emot geo location utanför komponenten
+//TODO Add current date in nav
+//TODO Add name of location in nav
 const logUserLocation = () => {
   const userLocation = useUserLocationStore.getState().userLocation;
   console.log("UserLocation", userLocation);

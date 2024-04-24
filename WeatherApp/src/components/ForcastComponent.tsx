@@ -18,6 +18,7 @@ const ForecastComponent = () => {
   const APIKEY = import.meta.env.VITE_API_KEY_FORECAST;
 
   //TODO Session storage for unit to toggle metric : imperial and save :next on refresh
+  //TODO Gör språk / lang till ett alternativ
 
   const changeUnit = () => {
     if (unit === "metric" || unitToken === "ºC") {
@@ -43,7 +44,7 @@ const ForecastComponent = () => {
   const getWeatherForecast = async () => {
     setUnit(unit);
     console.log(unit);
-    const forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${userPosition.latitude}&lon=${userPosition.longitude}&appid=${APIKEY}&units=${unit}&lang=${lang}`;
+    const forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${userPosition.latitude}&lon=${userPosition.longitude}&cnt=10&appid=${APIKEY}&units=${unit}&lang=${lang}`;
     console.log(forecastUrl);
     const response = await fetch(forecastUrl);
     const result = await response.json();
@@ -62,52 +63,9 @@ const ForecastComponent = () => {
     return weatherIcon; */
   };
 
-  const getFiveDayForecast = () => {};
-
-  const weak = [
-    "Monday",
-    "Teusday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
-    "Sunday",
-  ];
-
   useEffect(() => {
     getWeatherForecast();
   }, [userPosition, unit, unitToken]);
-
-  /*   const forecastDateGroup = (forecastData: any) => {
-    const dateGroup: {
-      [date: string]: { temperature: number[]; icon: string };
-    } = {};
-    forecastData.list.forEach((element: any) => {
-      const date = new Date((element.dt + weather.city.timezone) * 1000);
-      const dayFormatter = new Intl.DateTimeFormat("en", { weekday: "short" });
-      const day = dayFormatter.format(date);
-      const dayOfMonth = date.getDate();
-      const month = date.getMonth() + 1;
-      const formattedDate = `${day}\n${dayOfMonth}/${month}`;
-      if (!dateGroup[formattedDate]) {
-        dateGroup[formattedDate] = { temperature: [], icon: "" };
-      }
-
-      const temperature = element.main.temp;
-      const icon = element.weather[0].icon;
-      dateGroup[formattedDate].temperature.push(temperature);
-      dateGroup[formattedDate].icon = icon;
-    });
-
-    Object.keys(dateGroup).forEach((date) => {
-      const values = dateGroup[date];
-      const sum = values.temperature.reduce((acc, temp) => acc + temp, 0);
-      const average = sum / values.temperature.length;
-      dateGroup[date].temperature = [parseFloat(average.toFixed(2))];
-    });
-    console.log(dateGroup);
-    return dateGroup;
-  }; */
 
   if (forecast === null) {
     return null;
@@ -134,35 +92,28 @@ const ForecastComponent = () => {
         <strong>{forecast.city.name}</strong>
       </div>
 
-      {/* 3 hour forecast */}
+      {/* Forecast */}
       {forecast.list.map((element: any) => {
-        const date = new Date((element.dt + forecast.city.timezone) * 1000); // Omvandlar millisekunder till sekunder samt sätter den korrekta tidszoonen
+        const date = new Date((element.dt + forecast.city.timezone) * 1000); // Formatting milleseconds to seconds based on the current timezone
+        const dayFormatter = new Intl.DateTimeFormat("en", {
+          weekday: "short",
+        }); // ...formatter for day display
+        const day = dayFormatter.format(date); // ...displays weekday
+        const dayByNumber = date.getDate(); // ...display date by number (1-31)
+        const month = date.getMonth() + 1; // ...display month by calendar year
+        const formattedDate = `${dayByNumber}/${month} | ${day}`; // ...combines and formatt date
         return (
-          <p>
-            {/* Omvandlar dt till UTC standard att skriva datum */}
-            Date: {date.toUTCString()}
-            <br></br>
-            Temp: {Math.round(element.main.temp)}
-            {unitToken}
-            <br></br>
-            {capitalize(element.weather[0].description)}
-          </p>
-        );
-      })}
-      <div>
-        {weak.map((day: string) => (
           <>
-            {/* Tomorrow container */}
-            <div className="border-2 m-2 w-auto border-black flex h-28 text-lg justify-evenly content-center items-center">
-              {" "}
-              <div>
-                <h3 key={day}>{day}</h3>
-              </div>
+            <div className="border-2 m-2 w-auto border-black flex min-h-28 text-lg justify-evenly content-center items-center">
+              <p key={element.dt}>
+                {formattedDate}
+                <br />
+              </p>
               <WeatherComponent></WeatherComponent>
             </div>
           </>
-        ))}
-      </div>
+        );
+      })}
     </>
   );
 };

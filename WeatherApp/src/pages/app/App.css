@@ -11,6 +11,7 @@ body {
 }
 .weatherCards {
   @apply m-2 
+    relative
     w-auto 
     rounded-xl 
     shadow-md 

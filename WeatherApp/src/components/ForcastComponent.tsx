@@ -124,6 +124,7 @@ const ForecastComponent = () => {
   const sunset = new Date(
     (forecast.city.sunset + forecast.city.timezone) * 1000
   );
+  const name = forecast.city.name;
 
   return (
     <>
@@ -150,6 +151,7 @@ const ForecastComponent = () => {
               {Object.keys(groupForecastDataByDate(forecast)).map(
                 (item: any) => {
                   const group = groupForecastDataByDate(forecast)[item];
+                  console.log(group);
                   return (
                     <>
                       <div
@@ -157,6 +159,12 @@ const ForecastComponent = () => {
                           group.weatherCondition || "default"
                         }`}
                       >
+                        <div className="text-xs absolute top-0 left-0 m-2">
+                          <p>{name}</p>
+                        </div>
+                        <div className="relative top-0 left-0">
+                          <p>{}</p>
+                        </div>
                         <p>{item}</p>
                         <img
                           src={`https://openweathermap.org/img/wn/${group.icon}@2x.png`}

@@ -25,11 +25,11 @@ function App() {
     <>
       {/* Main container */}
       <div className="flex flex-col bg-cover shadow-lg rounde h-full m-2">
+        <SearchComponent></SearchComponent>
         {/* Current weather Card */}
         <div className="weatherCards min-h-96  bg-neutral-300">
           <CurrentWeatherComponent></CurrentWeatherComponent>
         </div>
-        <SearchComponent></SearchComponent>
         <ForecastComponent></ForecastComponent>
       </div>
     </>

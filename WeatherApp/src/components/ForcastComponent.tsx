@@ -151,7 +151,7 @@ const ForecastComponent = () => {
               {Object.keys(groupForecastDataByDate(forecast)).map(
                 (item: any) => {
                   const group = groupForecastDataByDate(forecast)[item];
-                  console.log(group);
+                  console.log(group.weatherCondition);
                   return (
                     <>
                       <div

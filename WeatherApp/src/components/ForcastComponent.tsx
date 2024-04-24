@@ -63,8 +63,13 @@ const ForecastComponent = () => {
   const groupForecastDataByDate = (forecastData: any) => {
     /* Grouping all the information by date */
     const groupByDate: {
-      [date: string]: { temperature: number[]; icon: string };
+      [date: string]: {
+        temperature: number[];
+        icon: string;
+        weatherCondition: string;
+      };
     } = {};
+
     forecastData.list.map((element: any) => {
       const date = new Date((element.dt + forecast.city.timezone) * 1000); // Formatting milleseconds to seconds based on the current timezone
 
@@ -76,13 +81,19 @@ const ForecastComponent = () => {
       const month = date.getMonth() + 1; // ...display month by calendar year
       const formattedDate = `${dayByNumber}/${month} | ${day}`; // ...combines and formatt date
       if (!groupByDate[formattedDate]) {
-        groupByDate[formattedDate] = { temperature: [], icon: "" };
+        groupByDate[formattedDate] = {
+          temperature: [],
+          icon: "",
+          weatherCondition: "",
+        };
       }
 
       const temperature = element.main.temp;
       const icon = element.weather[0].icon;
+      const weatherCondition = element.weather[0].main;
       groupByDate[formattedDate].temperature.push(temperature);
       groupByDate[formattedDate].icon = icon;
+      groupByDate[formattedDate].weatherCondition = weatherCondition;
     });
 
     Object.keys(groupByDate).forEach((date) => {
@@ -106,12 +117,9 @@ const ForecastComponent = () => {
   const sunrise = new Date(
     (forecast.city.sunrise + forecast.city.timezone) * 1000
   );
-  console.log(sunrise);
-
   const sunset = new Date(
     (forecast.city.sunset + forecast.city.timezone) * 1000
   );
-  console.log(sunset);
 
   return (
     <>
@@ -155,21 +163,22 @@ const ForecastComponent = () => {
             <div>
               {Object.keys(groupForecastDataByDate(forecast)).map(
                 (item: any) => {
+                  const group = groupForecastDataByDate(forecast)[item];
                   return (
                     <>
-                      <div className="border-2 m-2 w-auto border-black flex min-h-28 text-lg justify-evenly content-center items-center">
+                      <p>HÄR: {group.weatherCondition}</p>
+                      <div
+                        className={`weatherCards ${
+                          group.weatherCondition || "default"
+                        }`}
+                      >
                         <p>{item}</p>
                         <img
-                          src={`https://openweathermap.org/img/wn/${
-                            groupForecastDataByDate(forecast)[item].icon
-                          }@2x.png`}
+                          src={`https://openweathermap.org/img/wn/${group.icon}@2x.png`}
                           alt=""
                         />
                         <p>
-                          {Math.round(
-                            groupForecastDataByDate(forecast)[item]
-                              .temperature[0]
-                          ).toString()}{" "}
+                          {Math.round(group.temperature[0]).toString()}{" "}
                           {unitToken}
                         </p>
                         <div>

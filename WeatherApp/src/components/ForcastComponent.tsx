@@ -8,6 +8,10 @@ import WeatherDisplayComponent from "./WeatherDisplayComponent";
 import { useUserLocationStore } from "../stores/useUserLocationStore";
 import { useState, useEffect } from "react";
 
+// Images
+import sunriseImage from "../assets/sunrise.svg";
+import sunsetImage from "../assets/sunset.svg";
+
 const ForecastComponent = () => {
   const userPosition = useUserLocationStore((state: any) => state.userLocation);
   const [forecast, setForecast]: any = useState(null);
@@ -137,27 +141,9 @@ const ForecastComponent = () => {
         >
           Byt språk till {lang}
         </button>
-        {/* Sunset Card */}
-        <section className="border-2 m-2 w-auto border-black flex min-h-28 text-lg justify-evenly content-center items-center">
-          {/* Sunrise and Sunset */}
 
-          {/* TODO Set an image to sunrise and sunset */}
-          <div>
-            <p>
-              Sunrise: {("0" + sunrise.getUTCHours()).slice(-2)}:
-              {("0" + sunrise.getUTCMinutes()).slice(-2)}
-            </p>
-            <p>
-              Sunset: {("0" + sunset.getUTCHours()).slice(-2)}:
-              {("0" + sunset.getUTCMinutes()).slice(-2)}
-            </p>
-          </div>
+        {/* TODO Set an image to sunrise and sunset */}
 
-          {/* Location Name */}
-          <div className="flex justify-center font-normal text-xl">
-            <h2>{forecast.city.name}</h2>
-          </div>
-        </section>
         {forecast && (
           <>
             <div>
@@ -166,7 +152,6 @@ const ForecastComponent = () => {
                   const group = groupForecastDataByDate(forecast)[item];
                   return (
                     <>
-                      <p>HÄR: {group.weatherCondition}</p>
                       <div
                         className={`weatherCards ${
                           group.weatherCondition || "default"
@@ -181,15 +166,26 @@ const ForecastComponent = () => {
                           {Math.round(group.temperature[0]).toString()}{" "}
                           {unitToken}
                         </p>
+                        {/* Sunrise & sunset container */}
                         <div>
-                          <p>
-                            Sunrise: {("0" + sunrise.getUTCHours()).slice(-2)}:
+                          <div className="flex justify-center flex-col items-center">
+                            <img
+                              className="w-10 flex justify-center"
+                              src={sunriseImage}
+                              alt="sunrise image"
+                            />
+                            {("0" + sunrise.getUTCHours()).slice(-2)}:
                             {("0" + sunrise.getUTCMinutes()).slice(-2)}
-                          </p>
-                          <p>
-                            Sunset: {("0" + sunset.getUTCHours()).slice(-2)}:
+                          </div>
+                          <div className="flex justify-center flex-col items-center">
+                            <img
+                              className="w-10 flex justify-center"
+                              src={sunsetImage}
+                              alt="sunset image"
+                            />
+                            {("0" + sunset.getUTCHours()).slice(-2)}:
                             {("0" + sunset.getUTCMinutes()).slice(-2)}
-                          </p>
+                          </div>
                         </div>
                       </div>
                     </>

@@ -6,6 +6,9 @@
   font-family: monospace;
 }
 
+body {
+  @apply bg-neutral-600;
+}
 .weatherCards {
   @apply m-2 
     w-auto 

@@ -8,6 +8,7 @@ import { useUserLocationStore } from "../../stores/useUserLocationStore";
 
 // Styling
 import "./App.css";
+import backgroundImage from ".../assets/background.svg";
 
 // TODO Användes för att ta emot geo location utanför komponenten
 //TODO Add current date in nav
@@ -23,14 +24,12 @@ function App() {
   return (
     <>
       {/* Main container */}
-      <div className="flex flex-col border-2 border-black h-screen m-2">
+      <div className="flex flex-col bg-cover shadow-lg rounde h-full m-2">
         {/* Current weather Card */}
-        <div className="border-2 m-2 w-auto border-black flex min-h-96 text-lg justify-evenly content-center items-center">
+        <div className="weatherCards min-h-96  bg-neutral-300">
           <CurrentWeatherComponent></CurrentWeatherComponent>
         </div>
-
         <SearchComponent></SearchComponent>
-
         <ForecastComponent></ForecastComponent>
       </div>
     </>

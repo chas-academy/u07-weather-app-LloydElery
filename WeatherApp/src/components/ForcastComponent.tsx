@@ -14,10 +14,13 @@ import sunsetImage from "../assets/sunset.svg";
 
 const ForecastComponent = () => {
   const userPosition = useUserLocationStore((state: any) => state.userLocation);
+  const setUserPosition = useUserLocationStore(
+    (state: any) => state.updateUserLocation
+  );
   const [forecast, setForecast]: any = useState(null);
   const [lang, setLang]: any = useState(null);
   const [unit, setUnit]: any = useState<"metric" | "imperial">("metric");
-  const [unitToken, setUnitToken]: any = useState<"ºC" | "ºF">("ºC");
+  const [unitToken, setUnitToken]: any = useState<"°C" | "°F">("°C");
 
   const APIKEY = import.meta.env.VITE_API_KEY_FORECAST;
 
@@ -25,12 +28,12 @@ const ForecastComponent = () => {
   //TODO Gör språk / lang till ett alternativ
 
   const changeUnit = () => {
-    if (unit === "metric" || unitToken === "ºC") {
+    if (unit === "metric" || unitToken === "°C") {
       setUnit("imperial");
-      setUnitToken("ºF");
+      setUnitToken("°F");
     } else {
       setUnit("metric");
-      setUnitToken("ºC");
+      setUnitToken("°C");
     }
     sessionStorage.setItem(unitToken, unitToken);
     const storeUnitToken = sessionStorage.getItem(unitToken);
@@ -44,24 +47,34 @@ const ForecastComponent = () => {
     console.log(lang);
   };
 
+  //FIXME This function is never used
   const capitalize = (string: string) => {
     return string.charAt(0).toUpperCase() + string.slice(1);
   };
 
   const getWeatherForecast = async () => {
-    setUnit(unit);
+    /* setUnit(unit); */
     const forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${userPosition.latitude}&lon=${userPosition.longitude}&appid=${APIKEY}&units=${unit}&lang=${lang}`;
     console.log(forecastUrl);
     const response = await fetch(forecastUrl);
     const result = await response.json();
     setForecast(result);
-    if (forecast === null) {
-      return null;
-    } else {
-      setLang(forecast.city.country);
-    }
-    setUnitToken(unitToken);
     console.log(result);
+
+    setLang(forecast.city.country);
+
+    /* setUnitToken(unitToken); */
+    if (forecast === null) {
+      setUserPosition({
+        latitude: result.city.coord.lat
+          ? result.city.coord.lat
+          : userPosition.latitude,
+        longitude: result.city.coord.lon
+          ? result.city.coord.lon
+          : userPosition.longitude,
+      });
+      console.log(result);
+    }
   };
 
   const groupForecastDataByDate = (forecastData: any) => {
@@ -129,13 +142,19 @@ const ForecastComponent = () => {
   return (
     <>
       <div>
-        <button
-          onClick={() => changeUnit()}
-          className="bg-green-300 hover:bg-green-800 text-white font-bold py-2 px-3 rounded-full m-1 text-center"
-        >
-          {unitToken}
-        </button>
+        <div>
+          <button
+            onClick={() => changeUnit()}
+            className="primaryButton rounded-2xl w-11"
+          >
+            <span className="primaryButtonSpan rounded-2xl w-8 self-center flex flex-col items-center">
+              {unitToken}
+            </span>
+          </button>
+        </div>
+
         {/* Language Button */}
+
         <button
           className="bg-green-300 hover:bg-green-800 text-white font-bold py-2 px-3 rounded-full m-1 text-center"
           onClick={() => changeLanguage()}
@@ -204,29 +223,6 @@ const ForecastComponent = () => {
           </>
         )}
       </div>
-
-      {/* Forecast */}
-      {/* {forecast.list.map((element: any) => {
-        const date = new Date((element.dt + forecast.city.timezone) * 1000); // Formatting milleseconds to seconds based on the current timezone
-        const dayFormatter = new Intl.DateTimeFormat("en", {
-          weekday: "short",
-        }); // ...formatter for day display
-        const day = dayFormatter.format(date); // ...displays weekday
-        const dayByNumber = date.getDate(); // ...display date by number (1-31)
-        const month = date.getMonth() + 1; // ...display month by calendar year
-        const formattedDate = `${dayByNumber}/${month} | ${day}`; // ...combines and formatt date
-        return (
-          <>
-            <div className="border-2 m-2 w-auto border-black flex min-h-28 text-lg justify-evenly content-center items-center">
-              <p key={element.dt}>
-                {formattedDate}
-                <br />
-              </p>
-              <WeatherComponent></WeatherComponent>
-            </div>
-          </>
-        );
-      })} */}
     </>
   );
 };

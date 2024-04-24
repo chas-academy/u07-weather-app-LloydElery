@@ -35,6 +35,11 @@ const ForecastComponent = () => {
     return storeUnit;
   };
 
+  const changeLanguage = () => {
+    setLang(forecast.city.country);
+    console.log(lang);
+  };
+
   const capitalize = (string: string) => {
     return string.charAt(0).toUpperCase() + string.slice(1);
   };
@@ -62,6 +67,7 @@ const ForecastComponent = () => {
     } = {};
     forecastData.list.map((element: any) => {
       const date = new Date((element.dt + forecast.city.timezone) * 1000); // Formatting milleseconds to seconds based on the current timezone
+
       const dayFormatter = new Intl.DateTimeFormat("en", {
         weekday: "short",
       }); // ...formatter for day display
@@ -86,7 +92,6 @@ const ForecastComponent = () => {
       groupByDate[date].temperature = [Math.round(average * 100) / 100];
     });
 
-    console.log(groupByDate);
     return groupByDate;
   };
 
@@ -98,6 +103,16 @@ const ForecastComponent = () => {
     return null;
   }
 
+  const sunrise = new Date(
+    (forecast.city.sunrise + forecast.city.timezone) * 1000
+  );
+  console.log(sunrise);
+
+  const sunset = new Date(
+    (forecast.city.sunset + forecast.city.timezone) * 1000
+  );
+  console.log(sunset);
+
   return (
     <>
       <div>
@@ -107,12 +122,27 @@ const ForecastComponent = () => {
         >
           {unitToken}
         </button>
+        {/* Language Button */}
+        <button
+          className="bg-green-300 hover:bg-green-800 text-white font-bold py-2 px-3 rounded-full m-1 text-center"
+          onClick={() => changeLanguage()}
+        >
+          Byt språk till {lang}
+        </button>
         {/* Sunset Card */}
         <section className="border-2 m-2 w-auto border-black flex min-h-28 text-lg justify-evenly content-center items-center">
           {/* Sunrise and Sunset */}
+
+          {/* TODO Set an image to sunrise and sunset */}
           <div>
-            <p>Sunrise: {forecast.city.sunrise}</p>
-            <p>Sunset: {forecast.city.sunset}</p>
+            <p>
+              Sunrise: {("0" + sunrise.getUTCHours()).slice(-2)}:
+              {("0" + sunrise.getUTCMinutes()).slice(-2)}
+            </p>
+            <p>
+              Sunset: {("0" + sunset.getUTCHours()).slice(-2)}:
+              {("0" + sunset.getUTCMinutes()).slice(-2)}
+            </p>
           </div>
 
           {/* Location Name */}
@@ -142,6 +172,16 @@ const ForecastComponent = () => {
                           ).toString()}{" "}
                           {unitToken}
                         </p>
+                        <div>
+                          <p>
+                            Sunrise: {("0" + sunrise.getUTCHours()).slice(-2)}:
+                            {("0" + sunrise.getUTCMinutes()).slice(-2)}
+                          </p>
+                          <p>
+                            Sunset: {("0" + sunset.getUTCHours()).slice(-2)}:
+                            {("0" + sunset.getUTCMinutes()).slice(-2)}
+                          </p>
+                        </div>
                       </div>
                     </>
                   );

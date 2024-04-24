@@ -17,6 +17,7 @@ const WeatherComponent = () => {
     let weatherIcon = `https://openweathermap.org/img/wn/${result.weather[0].icon}@2x.png`;
     setWeatherIcon(weatherIcon);
     setWeather(result);
+    console.log(weather);
     return weatherIcon;
   };
 
@@ -57,6 +58,8 @@ const WeatherComponent = () => {
           <p>{Math.round(weather.main.temp)}&#8451;</p>
         </strong>
       </div>
+
+      {/* Sunset and Sunrise */}
     </>
   );
 };

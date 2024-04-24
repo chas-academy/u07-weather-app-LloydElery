@@ -1,7 +1,7 @@
 // This component will handle user location
 import WeatherComponent from "./WeatherComponent";
-
 import { useUserLocationStore } from "../stores/useUserLocationStore";
+import geoPinImage from "../assets/location-outline.svg";
 
 const UserLocationComponent = () => {
   const userPosition = useUserLocationStore((state: any) => state.userLocation);
@@ -18,7 +18,6 @@ const UserLocationComponent = () => {
         (position) => {
           const { latitude, longitude } = position.coords;
           setUserPosition({ latitude, longitude });
-          console.log(position.coords);
         },
         (error) => {
           console.error("Error fetching geolocation", error);
@@ -35,10 +34,18 @@ const UserLocationComponent = () => {
     console.log("Running getUserPosition");
   }
 
+  //TODO Om searchterm = '' eller null så inaktivera 'search' knappen
   return (
     <>
-      {/* Gets weather based on search or geolocation */}
-      <WeatherComponent></WeatherComponent>
+      <div className="absolute top-0 left-0 m-2 ">
+        <button onClick={() => getUserPosition()} className="w-9 hover:w-10 ">
+          <img src={geoPinImage} alt="" />
+        </button>
+      </div>
+      <div className="weatherCards min-h-96  bg-neutral-300">
+        {/* Gets weather based on search or geolocation */}
+        <WeatherComponent></WeatherComponent>
+      </div>
     </>
   );
 };

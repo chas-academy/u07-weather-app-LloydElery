@@ -23,7 +23,6 @@ const SearchComponent = () => {
     const searchUrl = `http://api.openweathermap.org/geo/1.0/direct?q=${searchterm}&limit=1&appid=${APIKEY}`;
     const response = await fetch(searchUrl);
     const result = await response.json();
-    console.log(result);
     setWeather(result);
 
     setUserPosition({

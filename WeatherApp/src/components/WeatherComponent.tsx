@@ -1,9 +1,11 @@
 // This component will handle weather calls
 import { useEffect, useState } from "react";
 import { useUserLocationStore } from "../stores/useUserLocationStore";
+import { useUnitStore } from "../stores/useUnitStore";
 
 const WeatherComponent = () => {
   const userPosition = useUserLocationStore((state: any) => state.userLocation);
+  const unitData = useUnitStore((state: any) => state.unitData);
   const [weather, setWeather]: any = useState(null);
   const [weatherIcon, setWeatherIcon]: any = useState(null);
 
@@ -11,7 +13,7 @@ const WeatherComponent = () => {
   const APIKEY = import.meta.env.VITE_API_KEY_CURRENT;
 
   const getWeatherByGeolocation = async () => {
-    const currentLocationUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${userPosition.latitude}&lon=${userPosition.longitude}&appid=${APIKEY}&units=metric`;
+    const currentLocationUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${userPosition.latitude}&lon=${userPosition.longitude}&appid=${APIKEY}&units=${unitData}`;
     const response = await fetch(currentLocationUrl);
     const result = await response.json();
     let weatherIcon = `https://openweathermap.org/img/wn/${result.weather[0].icon}@2x.png`;
@@ -27,7 +29,7 @@ const WeatherComponent = () => {
 
   useEffect(() => {
     getWeatherByGeolocation();
-  }, [userPosition]); // every time a user position changes, the useEffect will be triggerd
+  }, [userPosition, unitData]); // every time a user position changes, the useEffect will be triggerd
 
   // Checks if weather location is set or not to avoid errors
   if (weather === null) {
@@ -55,7 +57,10 @@ const WeatherComponent = () => {
       {/* Current Temp container */}
       <div className=" w-10 h-10 ">
         <strong className="w-full h-full content-center items-center  block">
-          <p>{Math.round(weather.main.temp)}&#8451;</p>
+          <p>
+            {Math.round(weather.main.temp)}
+            {unitData === "metric" ? "°C" : "°F"}
+          </p>
         </strong>
       </div>
 

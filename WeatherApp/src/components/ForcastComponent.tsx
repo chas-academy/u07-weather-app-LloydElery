@@ -1,60 +1,38 @@
 // This COMPONENT will contain the forecast for the coming days
 
-import SeasonComponent from "./SeasonComponent";
-import DateComponent from "./DateComponent";
-import WeatherComponent from "./WeatherComponent";
-import TemperatureComponent from "./TemperatureComponent";
-import WeatherDisplayComponent from "./WeatherDisplayComponent";
 import { useUserLocationStore } from "../stores/useUserLocationStore";
+import { useUnitStore } from "../stores/useUnitStore";
 import { useState, useEffect } from "react";
 
 // Images
 import sunriseImage from "../assets/sunrise.svg";
 import sunsetImage from "../assets/sunset.svg";
+import ToggleUnitDataButton from "./ToggleUnitDataButton";
 
 const ForecastComponent = () => {
   const userPosition = useUserLocationStore((state: any) => state.userLocation);
   const setUserPosition = useUserLocationStore(
     (state: any) => state.updateUserLocation
   );
+
+  const unitData = useUnitStore((state: any) => state.unitData);
+
   const [forecast, setForecast]: any = useState(null);
   const [lang, setLang]: any = useState(null);
   const [unit, setUnit]: any = useState<"metric" | "imperial">("metric");
-  const [unitToken, setUnitToken]: any = useState<"°C" | "°F">("°C");
 
   const APIKEY = import.meta.env.VITE_API_KEY_FORECAST;
 
   //TODO Session storage for unit to toggle metric : imperial and save :next on refresh
   //TODO Gör språk / lang till ett alternativ
 
-  const changeUnit = () => {
-    if (unit === "metric" || unitToken === "°C") {
-      setUnit("imperial");
-      setUnitToken("°F");
-    } else {
-      setUnit("metric");
-      setUnitToken("°C");
-    }
-    sessionStorage.setItem(unitToken, unitToken);
-    const storeUnitToken = sessionStorage.getItem(unitToken);
-    sessionStorage.setItem(unit, unit);
-    const storeUnit = sessionStorage.getItem(unit);
-    return storeUnit;
-  };
-
   const changeLanguage = () => {
     setLang(forecast.city.country);
     console.log(lang);
   };
 
-  //FIXME This function is never used
-  const capitalize = (string: string) => {
-    return string.charAt(0).toUpperCase() + string.slice(1);
-  };
-
   const getWeatherForecast = async () => {
-    /* setUnit(unit); */
-    const forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${userPosition.latitude}&lon=${userPosition.longitude}&appid=${APIKEY}&units=${unit}&lang=${lang}`;
+    const forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${userPosition.latitude}&lon=${userPosition.longitude}&appid=${APIKEY}&units=${unitData}&lang=${lang}`;
     console.log(forecastUrl);
     const response = await fetch(forecastUrl);
     const result = await response.json();
@@ -125,7 +103,7 @@ const ForecastComponent = () => {
 
   useEffect(() => {
     getWeatherForecast();
-  }, [userPosition, unit, unitToken]);
+  }, [userPosition, unitData]);
 
   if (forecast === null) {
     return null;
@@ -142,17 +120,7 @@ const ForecastComponent = () => {
   return (
     <>
       <div>
-        <div>
-          <button
-            onClick={() => changeUnit()}
-            className="primaryButton rounded-2xl w-11"
-          >
-            <span className="primaryButtonSpan rounded-2xl w-8 self-center flex flex-col items-center">
-              {unitToken}
-            </span>
-          </button>
-        </div>
-
+        <ToggleUnitDataButton></ToggleUnitDataButton>
         {/* Language Button */}
 
         <button
@@ -191,7 +159,7 @@ const ForecastComponent = () => {
                         />
                         <p>
                           {Math.round(group.temperature[0]).toString()}{" "}
-                          {unitToken}
+                          {unitData === "metric" ? "°C" : "°F"}
                         </p>
                         {/* Sunrise & sunset container */}
                         <div>

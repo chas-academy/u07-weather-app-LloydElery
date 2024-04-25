@@ -6,12 +6,10 @@ import { useEffect } from "react";
 
 const UserLocationComponent = () => {
   const userPosition = useUserLocationStore((state: any) => state.userLocation);
-
   // Updates the user geolocation
   const setUserPosition = useUserLocationStore(
     (state: any) => state.updateUserLocation
   );
-  console.log(userPosition);
 
   const getUserPosition = async () => {
     // Success -> get current device location

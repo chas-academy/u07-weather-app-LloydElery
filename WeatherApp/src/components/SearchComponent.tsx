@@ -52,11 +52,6 @@ const SearchComponent = () => {
 
   return (
     <>
-      {weather && (
-        <div className="flex flex-col justify-center content-center flex-wrap">
-          <h1 className="text-xl">{weather[0].name}</h1>
-        </div>
-      )}
       {/* Search container */}
       <div className=" flex justify-center">
         {/* Search input */}

@@ -7,7 +7,6 @@ import { useState, useEffect } from "react";
 // Images
 import sunriseImage from "../assets/sunrise.svg";
 import sunsetImage from "../assets/sunset.svg";
-import ToggleUnitDataButton from "./ToggleUnitDataButton";
 
 const ForecastComponent = () => {
   const userPosition = useUserLocationStore((state: any) => state.userLocation);
@@ -19,7 +18,6 @@ const ForecastComponent = () => {
 
   const [forecast, setForecast]: any = useState(null);
   const [lang, setLang]: any = useState(null);
-  const [unit, setUnit]: any = useState<"metric" | "imperial">("metric");
 
   const APIKEY = import.meta.env.VITE_API_KEY_FORECAST;
 
@@ -28,16 +26,14 @@ const ForecastComponent = () => {
 
   const changeLanguage = () => {
     setLang(forecast.city.country);
-    console.log(lang);
   };
 
   const getWeatherForecast = async () => {
     const forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${userPosition.latitude}&lon=${userPosition.longitude}&appid=${APIKEY}&units=${unitData}&lang=${lang}`;
-    console.log(forecastUrl);
     const response = await fetch(forecastUrl);
     const result = await response.json();
     setForecast(result);
-    console.log(result);
+    console.log(forecast);
 
     setLang(forecast.city.country);
 
@@ -51,7 +47,6 @@ const ForecastComponent = () => {
           ? result.city.coord.lon
           : userPosition.longitude,
       });
-      console.log(result);
     }
   };
 
@@ -120,16 +115,17 @@ const ForecastComponent = () => {
   return (
     <>
       <div>
-        <ToggleUnitDataButton></ToggleUnitDataButton>
-        {/* Language Button */}
-
-        <button
-          className="bg-green-300 hover:bg-green-800 text-white font-bold py-2 px-3 rounded-full m-1 text-center"
-          onClick={() => changeLanguage()}
-        >
-          Byt språk till {lang}
-        </button>
-
+        {forecast && (
+          <div className="flex flex-col justify-center content-center flex-wrap relative top-1">
+            <h1 className="mb-4 text-3xl font-extrabold text-gray-900 dark:text-white md:text-5xl lg:text-6xl">
+              <span className="text-transparent bg-clip-text bg-gradient-to-r to-white from-sky-400 ">
+                {forecast.city.name}
+              </span>
+            </h1>
+          </div>
+        )}
+      </div>
+      <div>
         {/* TODO Set an image to sunrise and sunset */}
 
         {forecast && (
@@ -138,7 +134,6 @@ const ForecastComponent = () => {
               {Object.keys(groupForecastDataByDate(forecast)).map(
                 (item: any) => {
                   const group = groupForecastDataByDate(forecast)[item];
-                  console.log(group.weatherCondition);
                   return (
                     <>
                       <div

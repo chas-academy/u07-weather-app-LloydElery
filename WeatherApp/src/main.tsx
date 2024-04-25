@@ -7,6 +7,7 @@ import { Outlet } from "react-router-dom";
 import UserLocationComponent from "./components/UserLocationComponent.tsx";
 import SearchComponent from "./components/SearchComponent.tsx";
 import WeatherComponent from "./components/WeatherComponent.tsx";
+import Navbar from "./components/Nevbar.tsx";
 
 /**
  * Routing structure
@@ -36,9 +37,7 @@ const router = createBrowserRouter([
     element: (
       <>
         <nav>
-          <div className="flex flex-col justify-center content-center flex-wrap">
-            <h1 className="text-xl">World Wide Weather</h1>
-          </div>
+          <Navbar></Navbar>
         </nav>
         <br />
         <Outlet></Outlet>

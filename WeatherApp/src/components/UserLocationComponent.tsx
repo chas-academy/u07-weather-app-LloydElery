@@ -2,6 +2,7 @@
 import WeatherComponent from "./WeatherComponent";
 import { useUserLocationStore } from "../stores/useUserLocationStore";
 import geoPinImage from "../assets/location-outline.svg";
+import { useEffect } from "react";
 
 const UserLocationComponent = () => {
   const userPosition = useUserLocationStore((state: any) => state.userLocation);
@@ -10,6 +11,7 @@ const UserLocationComponent = () => {
   const setUserPosition = useUserLocationStore(
     (state: any) => state.updateUserLocation
   );
+  console.log(userPosition);
 
   const getUserPosition = async () => {
     // Success -> get current device location
@@ -33,6 +35,8 @@ const UserLocationComponent = () => {
     getUserPosition();
     console.log("Running getUserPosition");
   }
+
+  useEffect(() => {}, []);
 
   //TODO Om searchterm = '' eller null så inaktivera 'search' knappen
   return (

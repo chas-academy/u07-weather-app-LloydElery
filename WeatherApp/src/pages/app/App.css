@@ -10,8 +10,7 @@ body {
   @apply bg-neutral-600;
 }
 .weatherCards {
-  @apply m-2 
-    relative
+  @apply mb-2 relative
     w-auto 
     rounded-xl 
     shadow-md 

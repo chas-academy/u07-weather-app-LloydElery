@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { useUserLocationStore } from "../stores/useUserLocationStore";
 import { useUnitStore } from "../stores/useUnitStore";
+import TodaysHourlyForecast from "./HourlyForecastComponent";
 
 const WeatherComponent = () => {
   const userPosition = useUserLocationStore((state: any) => state.userLocation);
@@ -63,7 +64,7 @@ const WeatherComponent = () => {
           </p>
         </strong>
       </div>
-
+      <TodaysHourlyForecast></TodaysHourlyForecast>
       {/* Sunset and Sunrise */}
     </>
   );

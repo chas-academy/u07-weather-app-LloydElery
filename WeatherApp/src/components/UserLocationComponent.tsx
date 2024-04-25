@@ -3,6 +3,7 @@ import WeatherComponent from "./WeatherComponent";
 import { useUserLocationStore } from "../stores/useUserLocationStore";
 import geoPinImage from "../assets/location-outline.svg";
 import { useEffect } from "react";
+import ToggleUnitDataButton from "./ToggleUnitDataButton";
 
 const UserLocationComponent = () => {
   const userPosition = useUserLocationStore((state: any) => state.userLocation);
@@ -44,6 +45,13 @@ const UserLocationComponent = () => {
           <img src={geoPinImage} alt="" />
         </button>
       </div>
+
+      {/* Unit button */}
+      <div className=" absolute right-0 top-0 m-2">
+        <ToggleUnitDataButton></ToggleUnitDataButton>
+      </div>
+
+      {/* Current weather container */}
       <div className="weatherCards min-h-96  bg-neutral-300">
         {/* Gets weather based on search or geolocation */}
         <WeatherComponent></WeatherComponent>

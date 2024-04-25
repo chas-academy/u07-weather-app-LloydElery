@@ -50,21 +50,23 @@ const SearchComponent = () => {
         </div>
       )}
       {/* Search container */}
-      <div className=" flex content-center justify-center items-center">
+      <div className=" flex justify-center">
         {/* Search input */}
-        <div className="relative inline-flex items-center justify-center ">
-          <input
-            className="primaryButtonSpan m-3 text-white"
-            ref={inputRef}
-            type="text"
-            placeholder="Enter Location"
-          />
-        </div>
-        <div>
-          <button className="primaryButton" onClick={() => searchInput()}>
-            <span className="primaryButtonSpan">Search</span>
-          </button>
-        </div>
+        <form className=" flex" action="">
+          <div className=" content-center">
+            <input
+              className="primaryButtonSpan  text-white"
+              ref={inputRef}
+              type="text"
+              placeholder="Enter Location"
+            />
+          </div>
+          <div>
+            <button className="primaryButton" onClick={() => searchInput()}>
+              <span className="primaryButtonSpan">Search</span>
+            </button>
+          </div>
+        </form>
       </div>
     </>
   );

@@ -3,8 +3,6 @@
 import { useEffect, useRef, useState } from "react";
 import { useUserLocationStore } from "../stores/useUserLocationStore";
 
-//TODO Why is ´data´ never read?
-
 const SearchComponent = () => {
   const userPosition = useUserLocationStore((state: any) => state.userLocation);
   const setUserPosition = useUserLocationStore(

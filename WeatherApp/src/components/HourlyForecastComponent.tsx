@@ -2,17 +2,19 @@ import { useEffect, useState } from "react";
 import { useUserLocationStore } from "../stores/useUserLocationStore";
 import { useUnitStore } from "../stores/useUnitStore";
 
-//FIXME Ändra så att unit = metric on render. Just nu är det standard
+//TODO Make a lang hook to change information based on lang and location
+//TODO Add images based on the time to display the suns position
 
 type HourlyForecastProps = {
   date: string;
-  temp: number[];
+  temp: number;
+  unitData: string;
   icon: string;
   condition: string;
   time: string;
 };
 
-const HourlyForecast: React.FC<any> = ({
+const HourlyForecast: React.FC<HourlyForecastProps> = ({
   date,
   temp,
   unitData,
@@ -21,7 +23,7 @@ const HourlyForecast: React.FC<any> = ({
   time,
 }) => (
   /* Card Container */
-  <div className="weatherCards bg-blue-200  w-full h-30">
+  <div className="hourlyForecast w-full h-30">
     {/* Date/Month */}
     <div className="justify-center absolute top-5 ">
       <p>{date}</p>
@@ -46,9 +48,7 @@ const HourlyForecast: React.FC<any> = ({
 
 const TodaysHourlyForecast: React.FC = () => {
   const userPosition = useUserLocationStore((state: any) => state.userLocation);
-  const setUserPosition = useUserLocationStore(
-    (state: any) => state.updateUserLocation
-  );
+
   const unitData = useUnitStore((state: any) => state.unitData);
   const [forecast, setForecast]: any = useState<any>(null);
   const [hours, setHours]: any = useState<any>(null);
@@ -61,7 +61,6 @@ const TodaysHourlyForecast: React.FC = () => {
       const response = await fetch(forecastUrl);
       const result = await response.json();
       const forecastByHour = result.list.slice(0, 6);
-      console.log(forecastByHour);
       setForecast(result);
       setHours(forecastByHour);
     } catch (error) {
@@ -79,7 +78,7 @@ const TodaysHourlyForecast: React.FC = () => {
 
   return (
     <>
-      <div className="grid grid-cols-3 sm:grid-cols-6 border border-2 gap-1 w-full items-center">
+      <div className=" grid grid-cols-6 sm:grid-cols-6 absolute bottom-0 gap-2 p-2 w-full items-center">
         {hours.map((element: any, index: any) => {
           const date = new Date((element.dt + forecast.city.timezone) * 1000);
 
@@ -88,10 +87,8 @@ const TodaysHourlyForecast: React.FC = () => {
             weekday: "short",
           }); // ...formatter for day display
           const day = dayFormatter.format(date);
-          const dayByNumber = date.getDate(); // ...display date by number (1-31)
-          const month = date.getMonth() + 1; // ...display month by calendar year
 
-          const timeFormatter = new Intl.DateTimeFormat("en", {
+          const timeFormatter = new Intl.DateTimeFormat("se", {
             hour: "2-digit",
             minute: "2-digit",
           }); // ...formatter for hour display
@@ -100,7 +97,7 @@ const TodaysHourlyForecast: React.FC = () => {
             <>
               <HourlyForecast
                 key={index}
-                date={`${dayByNumber}/${month} | ${day}`}
+                date={day}
                 temp={Math.round(element.main.temp)}
                 unitData={unitData === "metric" ? "°C" : "°F"}
                 icon={`https://openweathermap.org/img/wn/${element.weather[0].icon}@2x.png`}
@@ -115,23 +112,4 @@ const TodaysHourlyForecast: React.FC = () => {
   );
 };
 
-/* setUnitToken(unitToken); */
-/*     if (forecast === null) {
-      setUserPosition({
-        latitude: result.city.coord.lat
-          ? result.city.coord.lat
-          : userPosition.latitude,
-        longitude: result.city.coord.lon
-          ? result.city.coord.lon
-          : userPosition.longitude,
-      });
-    }
-  };
-
-  useEffect(() => {
-    getWeatherForecast();
-  }, [userPosition, unitData]);
-
-  return <></>; */
-/* }; */
 export default TodaysHourlyForecast;

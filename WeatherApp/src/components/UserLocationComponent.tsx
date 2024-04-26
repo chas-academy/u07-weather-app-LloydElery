@@ -52,7 +52,7 @@ const UserLocationComponent = () => {
       </div>
 
       {/* Current weather container */}
-      <div className=" weatherCards bg-orange-200 justify-center flex-col min-h-96  bg-neutral-300 relative">
+      <div className=" weatherCards bg-orange-200 justify-center flex-col min-h-96 relative">
         {/* Gets weather based on search or geolocation */}
         <WeatherComponent></WeatherComponent>
       </div>

@@ -5,9 +5,7 @@ interface Unit {
   unitData: any;
 }
 
-const defaultUnit = {
-  unitData: "metric",
-};
+const defaultUnit = "metric";
 
 export const useUnitStore = create<Unit, ["zustand/immer", unknown][]>(
   immer((set) => ({

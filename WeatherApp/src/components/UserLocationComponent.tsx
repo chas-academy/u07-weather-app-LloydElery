@@ -32,7 +32,6 @@ const UserLocationComponent = () => {
   /* If device location is not set, ask to set it on refresh */
   if (userPosition.latitude == 59.334591) {
     getUserPosition();
-    console.log("Running getUserPosition");
   }
 
   useEffect(() => {}, []);
@@ -41,7 +40,10 @@ const UserLocationComponent = () => {
   return (
     <>
       <div className="absolute top-0 left-0 m-2 ">
-        <button onClick={() => getUserPosition()} className="w-9 hover:w-10 ">
+        <button
+          onClick={() => getUserPosition()}
+          className="primaryButton rounded-2xl w-11"
+        >
           <img src={geoPinImage} alt="" />
         </button>
       </div>

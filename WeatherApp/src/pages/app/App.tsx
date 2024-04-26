@@ -1,8 +1,6 @@
 // Components
-import CurrentWeatherComponent from "../../components/CurrentWeatherComponent";
 import SearchComponent from "../../components/SearchComponent";
 import ForecastComponent from "../../components/ForcastComponent";
-import UserLocationComponent from "../../components/UserLocationComponent";
 
 // Hooks
 import { useUserLocationStore } from "../../stores/useUserLocationStore";
@@ -15,6 +13,8 @@ import { useUnitStore } from "../../stores/useUnitStore";
 const logUserLocation = () => {
   const userLocation = useUserLocationStore.getState().userLocation;
   console.log("UserLocation", userLocation);
+  if (userLocation != null) {
+  }
 };
 
 function App() {

@@ -95,3 +95,17 @@ text-gray-900
   rounded-md 
   group-hover:bg-opacity-0;
 }
+
+/* Weather condition cards */
+
+.conditionContainer {
+  @apply relative;
+}
+
+.conditionImgContainer {
+  @apply w-10/12;
+}
+
+.conditionInformation {
+  @apply grid grid-cols-1 justify-center;
+}

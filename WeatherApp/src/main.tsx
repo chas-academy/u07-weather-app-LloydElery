@@ -36,11 +36,13 @@ const router = createBrowserRouter([
     path: "/",
     element: (
       <>
-        <nav>
-          <Navbar></Navbar>
-        </nav>
-        <br />
-        <Outlet></Outlet>
+        <main className="w-full sm:max-w-5xl relative">
+          <nav>
+            <Navbar></Navbar>
+          </nav>
+          <br />
+          <Outlet></Outlet>
+        </main>
       </>
     ),
 

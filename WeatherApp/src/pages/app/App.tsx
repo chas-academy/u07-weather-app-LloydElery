@@ -24,7 +24,7 @@ function App() {
   return (
     <>
       {/* Main container */}
-      <div className="flex flex-col bg-cover shadow-lg rounde h-full m-2">
+      <div className=" flex flex-col bg-cover shadow-lg rounde h-full m-2">
         <SearchComponent></SearchComponent>
         {/* Current weather Card */}
 

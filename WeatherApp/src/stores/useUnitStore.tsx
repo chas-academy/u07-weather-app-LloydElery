@@ -2,23 +2,16 @@ import { create } from "zustand";
 import { immer } from "zustand/middleware/immer";
 
 interface Unit {
-  unitData: {
-    unit: any;
-    unitToken: any;
-  };
+  unitData: any;
 }
 
 const defaultUnit = {
-  unit: "metric",
-  unitToken: "℃",
+  unitData: "metric",
 };
 
 export const useUnitStore = create<Unit, ["zustand/immer", unknown][]>(
   immer((set) => ({
-    unitData: {
-      unit: sessionStorage.getItem("unit") || defaultUnit.unit,
-      unitToken: sessionStorage.getItem("unitToken") || defaultUnit.unitToken,
-    },
+    unitData: sessionStorage.getItem("unitData") || defaultUnit,
 
     updateUnitValue: (updatedUnitData: any) => {
       set({ unitData: updatedUnitData });

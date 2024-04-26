@@ -7,7 +7,6 @@ const CurrentWeatherComponent = () => {
   return (
     <>
       {/* Gets user device geolocation */}
-      <UserLocationComponent></UserLocationComponent>
 
       {/* Images, backgrounds and animations based on the weather and season */}
       {/* <WeatherDisplayComponent></WeatherDisplayComponent> */}

@@ -2,6 +2,7 @@
 import CurrentWeatherComponent from "../../components/CurrentWeatherComponent";
 import SearchComponent from "../../components/SearchComponent";
 import ForecastComponent from "../../components/ForcastComponent";
+import UserLocationComponent from "../../components/UserLocationComponent";
 
 // Hooks
 import { useUserLocationStore } from "../../stores/useUserLocationStore";
@@ -27,8 +28,6 @@ function App() {
       <div className=" flex flex-col bg-cover shadow-lg rounde h-full m-2">
         <SearchComponent></SearchComponent>
         {/* Current weather Card */}
-
-        <CurrentWeatherComponent></CurrentWeatherComponent>
 
         <ForecastComponent></ForecastComponent>
       </div>

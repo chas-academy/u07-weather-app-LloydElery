@@ -3,6 +3,7 @@
 import { useUserLocationStore } from "../stores/useUserLocationStore";
 import { useUnitStore } from "../stores/useUnitStore";
 import { useState, useEffect } from "react";
+import UserLocationComponent from "./UserLocationComponent";
 
 // Images
 import sunriseImage from "../assets/sunrise.svg";
@@ -128,6 +129,7 @@ const ForecastComponent = () => {
           </div>
         )}
       </div>
+      <UserLocationComponent></UserLocationComponent>
       <div>
         {forecast && (
           <>

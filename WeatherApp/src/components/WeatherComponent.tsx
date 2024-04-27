@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useUserLocationStore } from "../stores/useUserLocationStore";
 import { useUnitStore } from "../stores/useUnitStore";
 import TodaysHourlyForecast from "./HourlyForecastComponent";
+import ToggleUnitDataButton from "./ToggleUnitDataButton";
 
 // Images
 import humidityImg from "../assets/humidity.svg";
@@ -44,9 +45,6 @@ const WeatherComponent = () => {
   if (weather === null) {
     return null;
   }
-
-  //TODO Gör C | F klickbara för att ändra unit
-  //TODO Lägg till små iconer
 
   const dayFormatter = new Intl.DateTimeFormat("se", {
     weekday: "long",
@@ -95,7 +93,7 @@ const WeatherComponent = () => {
           </p>
         </div>
 
-        {/* Soluppgång */}
+        {/* Sunrise */}
         <div className=" grid grid-cols-1 justify-center">
           <p className="text-xs w-fit  ">
             Soluppgång: {""}
@@ -104,7 +102,7 @@ const WeatherComponent = () => {
           </p>
         </div>
 
-        {/* Solnedgång*/}
+        {/* Sunsety*/}
         <div className=" grid grid-cols-1 justify-center">
           <p className="text-xs w-fit  ">
             Soluppgång: {""}
@@ -115,14 +113,9 @@ const WeatherComponent = () => {
       </section>
 
       {/* Current Temperature */}
-      <div className=" grid grid-cols-2 justify-center space-x-0 absolute top-6 right-5 m-5 text-2xl w-fit">
-        <p className=" w-fit text-center">
-          {Math.round(weather.main.temp)}
-          {unitData === "metric" ? "°C" : "°F"}
-        </p>
-        <p className=" text-gray-600">
-          |{unitData === "imperial" ? "°C" : "°F"}
-        </p>
+      <div className="  grid grid-cols-2 justify-items-end space-x-0 absolute top-6 right-12 m-5 text-2xl w-fit">
+        {Math.round(weather.main.temp)}
+        <ToggleUnitDataButton></ToggleUnitDataButton>
       </div>
 
       {/* Weather conditions */}

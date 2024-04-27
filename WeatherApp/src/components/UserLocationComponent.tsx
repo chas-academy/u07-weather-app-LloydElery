@@ -3,7 +3,6 @@ import WeatherComponent from "./WeatherComponent";
 import { useUserLocationStore } from "../stores/useUserLocationStore";
 import geoPinImage from "../assets/location-outline.svg";
 import { useEffect } from "react";
-import ToggleUnitDataButton from "./ToggleUnitDataButton";
 
 const UserLocationComponent = () => {
   const userPosition = useUserLocationStore((state: any) => state.userLocation);
@@ -36,7 +35,6 @@ const UserLocationComponent = () => {
 
   useEffect(() => {}, []);
 
-  //TODO Om searchterm = '' eller null så inaktivera 'search' knappen
   return (
     <>
       <div className="absolute top-0 left-0 m-2 ">
@@ -46,11 +44,6 @@ const UserLocationComponent = () => {
         >
           <img src={geoPinImage} alt="" />
         </button>
-      </div>
-
-      {/* Unit button */}
-      <div className=" absolute right-0 top-0 m-2">
-        <ToggleUnitDataButton></ToggleUnitDataButton>
       </div>
 
       {/* Current weather container */}

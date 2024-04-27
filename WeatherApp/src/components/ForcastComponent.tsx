@@ -23,10 +23,6 @@ const ForecastComponent = () => {
   const APIKEY = import.meta.env.VITE_API_KEY_FORECAST;
 
   //TODO Gör språk / lang till ett alternativ
-  //TODO Ändra tiden i hourlyforecast
-  //TODO Ta bort datum
-  //TODO Lägg korten sida vid sida
-  //TODO Lägg till annan information på huvud-kortet
 
   const changeLanguage = () => {
     setLang(forecast.city.country);

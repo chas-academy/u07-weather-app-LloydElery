@@ -10,12 +10,10 @@ const ToggleUnitDataButton = () => {
   return (
     <>
       <div>
-        <button
-          className="primaryButton rounded-2xl w-11"
-          onClick={() => handleClick()}
-        >
-          <span className="primaryButtonSpan rounded-2xl w-8 self-center flex flex-col items-center">
-            {unitData === "metric" ? "°F" : "°C"}
+        <button onClick={() => handleClick()}>
+          {unitData === "metric" ? "°C" : "°F"}
+          <span className=" text-gray-600">
+            |{unitData === "imperial" ? "°C" : "°F"}
           </span>
         </button>
       </div>

@@ -2,6 +2,16 @@ import { useEffect, useState } from "react";
 import { useUserLocationStore } from "../stores/useUserLocationStore";
 import { useUnitStore } from "../stores/useUnitStore";
 
+import {
+  ResponsiveContainer,
+  AreaChart,
+  XAxis,
+  YAxis,
+  Area,
+  Tooltip,
+  CartesianGrid,
+} from "recharts";
+
 //TODO Make a lang hook to change information based on lang and location
 //TODO Add images based on the time to display the suns position
 
@@ -51,7 +61,7 @@ const TodaysHourlyForecast: React.FC = () => {
 
   const unitData = useUnitStore((state: any) => state.unitData);
   const [forecast, setForecast]: any = useState<any>(null);
-  const [hours, setHours]: any = useState<any>(null);
+  const [forecastHours, setForecastHours]: any = useState<any>(null);
 
   const getWeatherForecast = async () => {
     unitData;
@@ -62,7 +72,7 @@ const TodaysHourlyForecast: React.FC = () => {
       const result = await response.json();
       const forecastByHour = result.list.slice(0, 6);
       setForecast(result);
-      setHours(forecastByHour);
+      setForecastHours(forecastByHour);
     } catch (error) {
       console.error("Error fetching forecast:", error);
     }
@@ -72,27 +82,84 @@ const TodaysHourlyForecast: React.FC = () => {
     getWeatherForecast();
   }, [userPosition, unitData]);
 
+  /* Formattes the 6 coming forecast */
+  const timeFormatter = (date: any) => {
+    date = new Date((forecast.list[0].dt + forecast.city.timezone) * 1000);
+    const formatDateToTime = new Intl.DateTimeFormat("se", {
+      hour: "2-digit",
+      minute: "2-digit",
+    });
+    const time = formatDateToTime.format(date);
+    return time;
+  };
+
   if (!forecast) {
     return <p>Loading...</p>;
   }
+  const date = new Date((forecastHours.dt + forecast.city.timezone) * 1000);
+  console.log(date);
+  timeFormatter(date);
+  console.log(timeFormatter(date));
 
+  let time = forecastHours.map((item: any, index: any) => {
+    console.log(item);
+  });
+  let temp = "";
+  const data: any[] = [];
+  for (let i = 6; i >= 0; i--) {
+    data.push({
+      forecastTime: time,
+      forcastTemp: temp,
+    });
+  }
   return (
     <>
       <div className=" grid grid-cols-6 sm:grid-cols-6 absolute bottom-0 gap-2 p-2 w-full items-center">
-        {hours.map((element: any, index: any) => {
+        {forecastHours.map((element: any, index: any) => {
+          console.log(element);
+          console.log(index);
           const date = new Date((element.dt + forecast.city.timezone) * 1000);
 
-          // Formatting milleseconds to seconds based on the current timezone
-          const dayFormatter = new Intl.DateTimeFormat("en", {
+          /* Day formatter */
+          const formatDateToDay = new Intl.DateTimeFormat("en", {
             weekday: "short",
-          }); // ...formatter for day display
-          const day = dayFormatter.format(date);
+          });
+          const day = formatDateToDay.format(date);
 
-          const timeFormatter = new Intl.DateTimeFormat("se", {
+          /* Time formatter */
+          const formatDateToTime = new Intl.DateTimeFormat("se", {
             hour: "2-digit",
             minute: "2-digit",
-          }); // ...formatter for hour display
-          const time = timeFormatter.format(date);
+          });
+          const time = formatDateToTime.format(date);
+
+          /* Current temp */
+          const temp = Math.round(element.main.temp);
+
+          /* Humidity */
+          const humidity = element.main.humidity + "%";
+
+          /* Wind direction */
+          function getWindDirection(angle: any) {
+            const directions = [
+              "↓ N",
+              "↙ NE",
+              "← E",
+              "↖ SE",
+              "↑ S",
+              "↗ SW",
+              "→ W",
+              "↘ NW",
+            ];
+            return directions[Math.round(angle / 45) % 8];
+          }
+          const windDirection = element.wind.deg;
+
+          /* Wind speed */
+          const windSpeed = Math.round(element.wind.speed) + "m/s";
+
+          console.log(data);
+
           return (
             <>
               <HourlyForecast
@@ -104,6 +171,19 @@ const TodaysHourlyForecast: React.FC = () => {
                 condition={element.weather[0].main}
                 time={time}
               />
+              <section className="chart w-full bottom-32 absolute">
+                <div className=" border-black ">
+                  <ResponsiveContainer width="100%" height={100}>
+                    <AreaChart data={data}>
+                      <Area dataKey="forecastTemp" />
+                      <XAxis dataKey="forecastTime" />
+                      <YAxis dataKey="forecastTemp" />
+                      <Tooltip />
+                      <CartesianGrid />
+                    </AreaChart>
+                  </ResponsiveContainer>
+                </div>
+              </section>
             </>
           );
         })}

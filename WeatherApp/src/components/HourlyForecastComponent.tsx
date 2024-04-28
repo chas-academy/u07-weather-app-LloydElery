@@ -82,9 +82,14 @@ const TodaysHourlyForecast: React.FC = () => {
     getWeatherForecast();
   }, [userPosition, unitData]);
 
+  if (!forecast) {
+    return <p>Loading...</p>;
+  }
+
   /* Formattes the 6 coming forecast */
+  let date = "";
+  let time = "";
   const timeFormatter = (date: any) => {
-    date = new Date((forecast.list[0].dt + forecast.city.timezone) * 1000);
     const formatDateToTime = new Intl.DateTimeFormat("se", {
       hour: "2-digit",
       minute: "2-digit",
@@ -93,31 +98,37 @@ const TodaysHourlyForecast: React.FC = () => {
     return time;
   };
 
-  if (!forecast) {
-    return <p>Loading...</p>;
-  }
-  const date = new Date((forecastHours.dt + forecast.city.timezone) * 1000);
-  console.log(date);
-  timeFormatter(date);
-  console.log(timeFormatter(date));
-
-  let time = forecastHours.map((item: any, index: any) => {
-    console.log(item);
-  });
-  let temp = "";
   const data: any[] = [];
-  for (let i = 6; i >= 0; i--) {
+  const temp: any = "";
+  for (let i = 0; i < forecastHours.length; i++) {
+    const timestamp = forecastHours[i];
+    const date = new Date((timestamp.dt + forecast.city.timezone) * 1000);
+    const time = timeFormatter(date);
+
+    const temp = Math.round(timestamp.main.temp);
     data.push({
-      forecastTime: time,
-      forcastTemp: temp,
+      date: time,
+      value: temp,
     });
   }
+
+  const customTooltip = ({ active, payload, label }: any) => {
+    if (active) {
+      return (
+        <div className="tooltip">
+          <h4>{label}</h4>
+          <p>
+            {payload[0].value} {unitData === "metric" ? "°C" : "°F"}
+          </p>
+        </div>
+      );
+    }
+  };
+
   return (
     <>
       <div className=" grid grid-cols-6 sm:grid-cols-6 absolute bottom-0 gap-2 p-2 w-full items-center">
         {forecastHours.map((element: any, index: any) => {
-          console.log(element);
-          console.log(index);
           const date = new Date((element.dt + forecast.city.timezone) * 1000);
 
           /* Day formatter */
@@ -158,8 +169,11 @@ const TodaysHourlyForecast: React.FC = () => {
           /* Wind speed */
           const windSpeed = Math.round(element.wind.speed) + "m/s";
 
-          console.log(data);
-
+          //TODO Add chart for wind
+          //TODO Add chart for humidity
+          //TODO Move the sunset and sunrise infomration
+          //TODO Add wind and humidity to daily forecast
+          //TODO Style Chart
           return (
             <>
               <HourlyForecast
@@ -175,11 +189,38 @@ const TodaysHourlyForecast: React.FC = () => {
                 <div className=" border-black ">
                   <ResponsiveContainer width="100%" height={100}>
                     <AreaChart data={data}>
-                      <Area dataKey="forecastTemp" />
-                      <XAxis dataKey="forecastTime" />
-                      <YAxis dataKey="forecastTemp" />
-                      <Tooltip />
-                      <CartesianGrid />
+                      <defs>
+                        <linearGradient id="color" x1={0} y1={0} x2={0} y2={1}>
+                          <stop
+                            offset="0%"
+                            stopColor="2451b7"
+                            stopOpacity={0.4}
+                          />
+                          <stop
+                            offset="75%"
+                            stopColor="2451b7"
+                            stopOpacity={0.05}
+                          />
+                        </linearGradient>
+                      </defs>
+                      <Area
+                        dataKey="value"
+                        stroke="#2451b7"
+                        fill="url(#color)"
+                      />
+                      <XAxis
+                        dataKey="date"
+                        axisLine={false}
+                        tickFormatter={(str) => ""}
+                      />
+                      <YAxis
+                        dataKey="value"
+                        axisLine={false}
+                        tickLine={false}
+                        tickFormatter={(number) => `${number}°`}
+                      />
+                      <Tooltip content={customTooltip} />
+                      <CartesianGrid opacity={0.1} vertical={false} />
                     </AreaChart>
                   </ResponsiveContainer>
                 </div>

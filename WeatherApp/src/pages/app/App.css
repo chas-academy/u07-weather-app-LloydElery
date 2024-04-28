@@ -109,3 +109,14 @@ text-gray-900
 .conditionInformation {
   @apply grid grid-cols-1 justify-center;
 }
+
+/* Chart */
+/* Tooltip active */
+.tooltip {
+  @apply rounded-sm
+  bg-neutral-500
+  text-white
+  p-1
+  shadow-sm
+  text-center;
+}

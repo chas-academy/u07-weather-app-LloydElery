@@ -99,7 +99,6 @@ const TodaysHourlyForecast: React.FC = () => {
   };
 
   const data: any[] = [];
-  const temp: any = "";
   for (let i = 0; i < forecastHours.length; i++) {
     const timestamp = forecastHours[i];
     const date = new Date((timestamp.dt + forecast.city.timezone) * 1000);
@@ -174,6 +173,8 @@ const TodaysHourlyForecast: React.FC = () => {
           //TODO Move the sunset and sunrise infomration
           //TODO Add wind and humidity to daily forecast
           //TODO Style Chart
+          //TODO If temp < 0c set area-stroke to blue
+
           return (
             <>
               <HourlyForecast
@@ -193,19 +194,19 @@ const TodaysHourlyForecast: React.FC = () => {
                         <linearGradient id="color" x1={0} y1={0} x2={0} y2={1}>
                           <stop
                             offset="0%"
-                            stopColor="2451b7"
+                            stopColor={temp < 0 ? "#8ad1f5" : "#f3d38a"}
                             stopOpacity={0.4}
                           />
                           <stop
                             offset="75%"
-                            stopColor="2451b7"
+                            stopColor={temp < 0 ? "#8ad1f5" : "#f3d38a"}
                             stopOpacity={0.05}
                           />
                         </linearGradient>
                       </defs>
                       <Area
                         dataKey="value"
-                        stroke="#2451b7"
+                        stroke={temp < 0 ? "#bac1c4" : "#6d5f60"}
                         fill="url(#color)"
                       />
                       <XAxis
@@ -217,7 +218,12 @@ const TodaysHourlyForecast: React.FC = () => {
                         dataKey="value"
                         axisLine={false}
                         tickLine={false}
-                        tickFormatter={(number) => `${number}°`}
+                        tickFormatter={(number) =>
+                          number + "°" && unitData == "metric"
+                            ? number + "°C"
+                            : number + "°F"
+                        }
+                        tick={{ fontSize: 12, fill: "black" }}
                       />
                       <Tooltip content={customTooltip} />
                       <CartesianGrid opacity={0.1} vertical={false} />

@@ -114,7 +114,8 @@ text-gray-900
 /* Tooltip active */
 .tooltip {
   @apply rounded-sm
-  bg-neutral-500
+  bg-black
+  bg-opacity-35
   text-white
   p-1
   shadow-sm

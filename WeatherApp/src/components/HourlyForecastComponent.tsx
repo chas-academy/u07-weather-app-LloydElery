@@ -170,10 +170,6 @@ const TodaysHourlyForecast: React.FC = () => {
 
           //TODO Add chart for wind
           //TODO Add chart for humidity
-          //TODO Move the sunset and sunrise infomration
-          //TODO Add wind and humidity to daily forecast
-          //TODO Style Chart
-          //TODO If temp < 0c set area-stroke to blue
 
           return (
             <>
@@ -208,6 +204,7 @@ const TodaysHourlyForecast: React.FC = () => {
                         dataKey="value"
                         stroke={temp < 0 ? "#bac1c4" : "#6d5f60"}
                         fill="url(#color)"
+                        type={"monotone"}
                       />
                       <XAxis
                         dataKey="date"

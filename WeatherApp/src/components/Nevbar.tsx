@@ -7,9 +7,9 @@ const Navbar = () => {
   useEffect(() => {}, [userPosition]);
   return (
     <>
-      <div className="flex flex-col justify-center content-center flex-wrap relative top-5">
-        <h1 className="mb-4 text-3xl font-extrabold text-gray-900 dark:text-white md:text-5xl lg:text-6xl">
-          <span className="text-transparent bg-clip-text bg-gradient-to-r to-emerald-600 from-sky-400">
+      <div className=" bg-gradient-to-b from-[#c9cebd] to-[#50723c] bg-opacity-50 flex flex-col justify-center content-center flex-wrap relative top-0 ">
+        <h1 className="mb-4 text-3xl font-extrabold text-gray-900 dark:text-white md:text-5xl lg:text-6xl relative top-2">
+          <span className="text-transparent bg-clip-text bg-gradient-to-r to-[#8895b3] from-[#151e3f]">
             World Wide <br />
           </span>{" "}
           <span className="flex justify-center">Weather</span>

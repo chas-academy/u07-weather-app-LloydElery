@@ -12,7 +12,6 @@ import { useUnitStore } from "../../stores/useUnitStore";
 // Användes för att ta emot geo location utanför komponenten
 const logUserLocation = () => {
   const userLocation = useUserLocationStore.getState().userLocation;
-  console.log("UserLocation", userLocation);
   if (userLocation != null) {
   }
 };

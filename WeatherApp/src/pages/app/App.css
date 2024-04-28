@@ -9,7 +9,7 @@
 }
 
 body {
-  @apply bg-neutral-600;
+  @apply bg-[#50723c];
 }
 .weatherCards {
   @apply mb-2 relative
@@ -37,23 +37,23 @@ body {
 }
 
 .Clouds {
-  @apply bg-gradient-to-r from-gray-300 !important;
+  @apply bg-gradient-to-r from-[#34344A] !important;
 }
 
 .Clear {
-  @apply bg-gradient-to-r from-blue-400;
+  @apply bg-gradient-to-r from-[#edd382];
 }
 
 .default {
-  @apply bg-gradient-to-r from-green-300;
+  @apply bg-gradient-to-r from-[#fc9e6f];
 }
 
 .Rain {
-  @apply bg-gradient-to-r from-blue-200;
+  @apply bg-gradient-to-r from-[#8eb8e5];
 }
 
 .Snow {
-  @apply bg-gradient-to-r from-white;
+  @apply bg-gradient-to-r from-[#d2d6ef];
 }
 
 .primaryButton {
@@ -62,8 +62,7 @@ body {
   items-center 
   justify-center
   h-10 
-  w-auto
-  p-1
+  w-24 
   m-1
   overflow-hidden 
   text-sm 
@@ -71,7 +70,7 @@ body {
 text-gray-900 
   rounded-lg  
   bg-gradient-to-br
-  from-purple-600
+  from-[#34344A]
   to-blue-500
   group-hover:from-purple-600
   group-hover:to-blue-500

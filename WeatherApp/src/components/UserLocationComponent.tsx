@@ -37,17 +37,17 @@ const UserLocationComponent = () => {
 
   return (
     <>
-      <div className="absolute top-0 left-0 m-2 ">
-        <button
-          onClick={() => getUserPosition()}
-          className="primaryButton rounded-2xl w-11"
-        >
+      <div className=" absolute grid grid-cols-1 w-fit m-2">
+        <button onClick={() => getUserPosition()} className="w-8">
           <img src={geoPinImage} alt="" />
         </button>
       </div>
 
       {/* Current weather container */}
-      <div className=" weatherCards bg-neutral-400 justify-center flex-col min-h-96 relative">
+      <div
+        className=" weatherCards bg-[#c9cebd]
+          bg-opacity-50 justify-center flex-col min-h-96 relative"
+      >
         {/* Gets weather based on search or geolocation */}
         <WeatherComponent></WeatherComponent>
       </div>

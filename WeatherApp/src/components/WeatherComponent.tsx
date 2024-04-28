@@ -29,7 +29,6 @@ const WeatherComponent = () => {
     let weatherIcon = `https://openweathermap.org/img/wn/${result.weather[0].icon}@2x.png`;
     setWeatherIcon(weatherIcon);
     setWeather(result);
-    console.log(weather);
     return weatherIcon;
   };
 
@@ -54,6 +53,7 @@ const WeatherComponent = () => {
     hour: "2-digit",
     minute: "2-digit",
   });
+  console.log(weather);
   const date = new Date((weather.dt + weather.timezone) * 1000);
   const time = timeFormatter.format(date);
   const sunrise = new Date((weather.sys.sunrise + weather.timezone) * 1000);
@@ -123,8 +123,16 @@ const WeatherComponent = () => {
         {/* Rain */}
         <div className=" grid grid-cols-1 justify-center">
           <p className="text-xs w-fit  ">
-            Nederbörd: {""}
-            {weather.main.humidity} %
+            Temperatur: {""}
+            <p className="right-8 top-0 absolute">
+              {Math.round(weather.main.temp_min)}/
+            </p>
+            <p className="right-4 top-0 absolute">
+              {Math.round(weather.main.temp_max)}{" "}
+            </p>
+            <p className="right-0 top-0 absolute">
+              {unitData === "metric" ? "C°" : "F°"}
+            </p>
           </p>
         </div>
 

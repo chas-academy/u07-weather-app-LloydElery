@@ -29,9 +29,9 @@ const ForecastComponent = () => {
   const APIKEY = import.meta.env.VITE_API_KEY_FORECAST;
 
   //TODO Gör språk / lang till ett alternativ
-  const changeLanguage = () => {
+  /*   const changeLanguage = () => {
     setLang(forecast.city.country);
-  };
+  }; */
 
   const getWeatherForecast = async () => {
     const forecastUrl = `https://api.openweathermap.org/data/2.5/forecast?lat=${userPosition.latitude}&lon=${userPosition.longitude}&appid=${APIKEY}&units=${unitData}&lang=${lang}`;

@@ -30,6 +30,7 @@ const SearchComponent = () => {
     const response = await fetch(searchUrl);
     const result = await response.json();
     setWeather(result);
+    console.log(weather);
 
     setUserPosition({
       latitude: result[0].lat ? result[0].lat : userPosition.latitude,

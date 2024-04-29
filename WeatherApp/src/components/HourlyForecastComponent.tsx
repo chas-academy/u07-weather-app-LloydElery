@@ -186,7 +186,7 @@ const TodaysHourlyForecast: React.FC = () => {
                       <XAxis
                         dataKey="date"
                         axisLine={false}
-                        tickFormatter={(str) => ""}
+                        tickFormatter={() => ""}
                       />
                       <YAxis
                         dataKey="value"

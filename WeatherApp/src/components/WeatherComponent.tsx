@@ -5,14 +5,6 @@ import { useUnitStore } from "../stores/useUnitStore";
 import TodaysHourlyForecast from "./HourlyForecastComponent";
 import ToggleUnitDataButton from "./ToggleUnitDataButton";
 
-// Images
-import humidityImg from "../assets/humidity.svg";
-import windImg from "../assets/cloudy-windy.svg";
-import maxTempImg from "../assets/temperature-max.svg";
-import minTempImg from "../assets/temperature-min.svg";
-import sunriseImg from "../assets/sunrise.svg";
-import sunsetImg from "../assets/sunset.svg";
-
 const WeatherComponent = () => {
   const userPosition = useUserLocationStore((state: any) => state.userLocation);
   const unitData = useUnitStore((state: any) => state.unitData);

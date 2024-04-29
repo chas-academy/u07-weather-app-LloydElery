@@ -87,8 +87,7 @@ const TodaysHourlyForecast: React.FC = () => {
   }
 
   /* Formattes the 6 coming forecast */
-  let date = "";
-  let time = "";
+
   const timeFormatter = (date: any) => {
     const formatDateToTime = new Intl.DateTimeFormat("se", {
       hour: "2-digit",
@@ -145,28 +144,6 @@ const TodaysHourlyForecast: React.FC = () => {
 
           /* Current temp */
           const temp = Math.round(element.main.temp);
-
-          /* Humidity */
-          const humidity = element.main.humidity + "%";
-
-          /* Wind direction */
-          function getWindDirection(angle: any) {
-            const directions = [
-              "↓ N",
-              "↙ NE",
-              "← E",
-              "↖ SE",
-              "↑ S",
-              "↗ SW",
-              "→ W",
-              "↘ NW",
-            ];
-            return directions[Math.round(angle / 45) % 8];
-          }
-          const windDirection = element.wind.deg;
-
-          /* Wind speed */
-          const windSpeed = Math.round(element.wind.speed) + "m/s";
 
           //TODO Add chart for wind
           //TODO Add chart for humidity

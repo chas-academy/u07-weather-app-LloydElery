@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useUserLocationStore } from "../stores/useUserLocationStore";
 
 const Navbar = () => {

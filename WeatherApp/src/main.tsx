@@ -1,12 +1,9 @@
 import ReactDOM from "react-dom/client";
 import App from "./pages/app/App.tsx";
 import "./index.css";
-import { Link, RouterProvider, createBrowserRouter } from "react-router-dom";
+import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { Outlet } from "react-router-dom";
 
-import UserLocationComponent from "./components/UserLocationComponent.tsx";
-import SearchComponent from "./components/SearchComponent.tsx";
-import WeatherComponent from "./components/WeatherComponent.tsx";
 import Navbar from "./components/Nevbar.tsx";
 
 /**

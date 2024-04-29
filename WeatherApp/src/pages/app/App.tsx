@@ -7,7 +7,6 @@ import { useUserLocationStore } from "../../stores/useUserLocationStore";
 
 // Styling
 import "./App.css";
-import { useUnitStore } from "../../stores/useUnitStore";
 
 // Användes för att ta emot geo location utanför komponenten
 const logUserLocation = () => {
@@ -18,8 +17,6 @@ const logUserLocation = () => {
 
 function App() {
   logUserLocation();
-
-  const unitData = useUnitStore((state: any) => state.unitData);
 
   return (
     <>
@@ -35,3 +32,8 @@ function App() {
 }
 
 export default App;
+
+//TODO Add wind speed for 'metric' and 'imperial'
+//FIXME Why does the cloudiness change on unitState?
+//FIXME Change font color for nav
+//FIXME Change background color

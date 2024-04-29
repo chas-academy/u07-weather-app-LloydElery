@@ -29,7 +29,6 @@ const ForecastComponent = () => {
   const APIKEY = import.meta.env.VITE_API_KEY_FORECAST;
 
   //TODO Gör språk / lang till ett alternativ
-
   const changeLanguage = () => {
     setLang(forecast.city.country);
   };
